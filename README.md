@@ -21,7 +21,7 @@ A multi-agent AI system that analyzes real estate investment opportunities using
 ### 1. Install dependencies
 
 ```bash
-pip install langchain_google_genai python-dotenv crewai crewai-tools
+pip install -r requirements.txt
 ```
 
 ### 2. Get API keys
