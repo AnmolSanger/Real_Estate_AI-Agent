@@ -2,9 +2,7 @@
 __pycache__/
 *.pyc
 *.pyo
-*.txt
-!requirements.txt
-!Pipfile.txt
 *.log
 .venv/
 venv/
+investment_report.txt
