@@ -7,8 +7,8 @@ A multi-agent AI system that analyzes real estate investment opportunities using
 - **Multi-Agent Architecture** — Two AI agents with distinct roles work together in a pipeline
 - **Real-Time Web Research** — Researcher agent searches the web for live market data using Google Search API
 - **Investor-Grade Reports** — Analyst agent produces structured reports with ROI projections, risk matrices, and recommendations
-- **Dynamic Input** — Analyze any location and property type (retail, residential, commercial, etc.)
-- **Web Interface** — Clean dark-themed UI with real-time loading status and formatted report display
+- **Dynamic Input** — Analyze any location with property types: Residential, Commercial, Retail, Industrial, Mixed-Use
+- **Streamlit Web Interface** — Interactive UI with real-time status updates and downloadable reports
 - **CLI Support** — Run directly from the terminal for quick analysis
 
 ## How It Works
@@ -42,8 +42,7 @@ User Input (Location + Property Type)
 | **Google Gemini** | LLM for analysis and report generation |
 | **LiteLLM** | Unified LLM API interface (used internally by CrewAI) |
 | **SerperDev** | Google Search API for real-time market data |
-| **Flask** | Web server and API |
-| **HTML/CSS/JS** | Frontend UI |
+| **Streamlit** | Interactive web UI |
 
 ## Getting Started
 
@@ -91,10 +90,10 @@ SERPER_API_KEY=your_serper_api_key_here
 **Option A — Web App (recommended):**
 
 ```bash
-python app.py
+streamlit run app.py
 ```
 
-Open [http://localhost:5000](http://localhost:5000) in your browser. Enter a location and property type, then click "Analyze Properties". The agents will work through the analysis and display the report on screen.
+The app opens automatically in your browser. Enter a location and property type, then click "Analyze Properties". The agents will work through the analysis and display the report on screen.
 
 **Option B — Command Line:**
 
@@ -107,15 +106,11 @@ Follow the prompts to enter a location and property type. The report will print 
 ## Project Structure
 
 ```
-├── app.py               # Flask web server with background job processing
+├── app.py               # Streamlit web app
 ├── crew.py              # CLI entry point
 ├── agents.py            # AI agent definitions (Researcher + Analyst)
 ├── tasks.py             # Task definitions with dynamic user input
 ├── tools.py             # External tools (Google Search via SerperDev)
-├── templates/
-│   └── index.html       # Web UI with form, loading animation, report display
-├── static/
-│   └── style.css        # Dark-themed responsive styling
 ├── requirements.txt     # Python dependencies
 ├── .env.example         # Template for required API keys
 └── .gitignore           # Prevents secrets and cache from being committed

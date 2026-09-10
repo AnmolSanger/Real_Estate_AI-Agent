@@ -1,69 +1,72 @@
-import uuid
-import threading
-
+import streamlit as st
 from dotenv import load_dotenv
+
 load_dotenv()
 
-from flask import Flask, render_template, request, jsonify
 from crewai import Crew
 from agents import property_researcher, property_analyst
 from tasks import create_research_task, create_analysis_task
 
-app = Flask(__name__)
+st.set_page_config(
+    page_title="Real Estate Investment AI Agent",
+    page_icon="🏢",
+    layout="centered",
+)
 
-jobs = {}
+st.title("🏢 Real Estate Investment AI Agent")
+st.markdown("Two specialized AI agents research and analyze real estate opportunities, delivering investor-grade reports in minutes.")
 
+st.divider()
 
-def run_crew(job_id, location, property_type):
-    jobs[job_id]["status"] = "running"
-    try:
-        research_task = create_research_task(location, property_type)
-        analysis_task = create_analysis_task(location, property_type, research_task)
+col1, col2 = st.columns(2)
 
-        crew = Crew(
-            agents=[property_researcher, property_analyst],
-            tasks=[research_task, analysis_task],
-            verbose=True,
+with col1:
+    st.markdown("**🔍 Agent 1 — Property Researcher**")
+    st.caption("Searches the web for market data, rental yields, ROI potential, and evaluates investment locations.")
+
+with col2:
+    st.markdown("**📊 Agent 2 — Property Analyst**")
+    st.caption("Synthesizes research into a structured investment report with rankings, risk analysis, and recommendations.")
+
+st.divider()
+
+with st.form("analysis_form"):
+    location = st.text_input("Location", placeholder="e.g., Mumbai, Berlin, New York")
+    property_type = st.selectbox(
+        "Property Type",
+        ["Residential", "Commercial", "Retail", "Industrial", "Mixed-Use"],
+    )
+
+    submitted = st.form_submit_button("🚀 Analyze Properties", use_container_width=True)
+
+if submitted:
+    if not location:
+        st.error("Please enter a location.")
+    else:
+        with st.status("🤖 AI Agents are working...", expanded=True) as status:
+            st.write("🔍 Researcher agent searching the web...")
+            research_task = create_research_task(location, property_type)
+
+            st.write("📈 Analyzing market data and financials...")
+            analysis_task = create_analysis_task(location, property_type, research_task)
+
+            crew = Crew(
+                agents=[property_researcher, property_analyst],
+                tasks=[research_task, analysis_task],
+                verbose=True,
+            )
+
+            st.write("📝 Analyst agent compiling the report...")
+            result = crew.kickoff()
+
+            status.update(label="✅ Analysis complete!", state="complete", expanded=False)
+
+        st.subheader(f"📋 Investment Report — {property_type.title()} in {location.title()}")
+        st.markdown(str(result))
+
+        st.download_button(
+            label="📥 Download Report",
+            data=str(result),
+            file_name=f"investment_report_{location.lower().replace(' ', '_')}.txt",
+            mime="text/plain",
         )
-
-        result = crew.kickoff()
-        jobs[job_id]["status"] = "done"
-        jobs[job_id]["result"] = str(result)
-    except Exception as e:
-        jobs[job_id]["status"] = "error"
-        jobs[job_id]["error"] = str(e)
-
-
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
-@app.route("/analyze", methods=["POST"])
-def analyze():
-    data = request.get_json()
-    location = data.get("location", "").strip()
-    property_type = data.get("property_type", "").strip()
-
-    if not location or not property_type:
-        return jsonify({"error": "Both location and property type are required."}), 400
-
-    job_id = str(uuid.uuid4())
-    jobs[job_id] = {"status": "starting", "location": location, "property_type": property_type}
-
-    thread = threading.Thread(target=run_crew, args=(job_id, location, property_type))
-    thread.start()
-
-    return jsonify({"job_id": job_id})
-
-
-@app.route("/status/<job_id>")
-def status(job_id):
-    job = jobs.get(job_id)
-    if not job:
-        return jsonify({"error": "Job not found"}), 404
-    return jsonify(job)
-
-
-if __name__ == "__main__":
-    app.run(debug=True, port=5000)
