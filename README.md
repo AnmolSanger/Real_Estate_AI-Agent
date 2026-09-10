@@ -1,56 +1,132 @@
 # Real Estate Investment AI Agent
 
-A multi-agent AI system that analyzes real estate investment opportunities using CrewAI. Two specialized AI agents — a Property Researcher and a Property Analyst — work together to produce investor-grade reports for any location and property type.
+A multi-agent AI system that analyzes real estate investment opportunities using CrewAI and Google Gemini. Two specialized AI agents — a Property Researcher and a Property Analyst — collaborate autonomously to produce investor-grade reports for any location and property type worldwide.
+
+## Features
+
+- **Multi-Agent Architecture** — Two AI agents with distinct roles work together in a pipeline
+- **Real-Time Web Research** — Researcher agent searches the web for live market data using Google Search API
+- **Investor-Grade Reports** — Analyst agent produces structured reports with ROI projections, risk matrices, and recommendations
+- **Dynamic Input** — Analyze any location and property type (retail, residential, commercial, etc.)
+- **Web Interface** — Clean dark-themed UI with real-time loading status and formatted report display
+- **CLI Support** — Run directly from the terminal for quick analysis
 
 ## How It Works
 
-1. You enter a **location** (e.g., Mumbai, Berlin) and **property type** (e.g., retail, residential)
-2. The **Researcher Agent** searches the web and analyzes market trends, rental yields, ROI potential, and risks
-3. The **Analyst Agent** takes the research and produces a structured investment report with rankings and recommendations
-4. The final report is saved to `investment_report.txt`
+```
+User Input (Location + Property Type)
+        │
+        ▼
+┌─────────────────────────┐
+│   Property Researcher   │  → Searches the web for market data
+│       (Agent 1)         │  → Analyzes trends, yields, ROI
+│                         │  → Assesses risks and competition
+└───────────┬─────────────┘
+            │ Research findings passed as context
+            ▼
+┌─────────────────────────┐
+│    Property Analyst     │  → Reads research output
+│       (Agent 2)         │  → Creates structured report
+│                         │  → Ranks properties, adds risk matrix
+└───────────┬─────────────┘
+            │
+            ▼
+   Final Investment Report
+```
 
 ## Tech Stack
 
-- **CrewAI** — Multi-agent orchestration framework
-- **Google Gemini 2.0 Flash** — LLM for analysis and report generation
-- **LangChain** — LLM abstraction layer
-- **SerperDev** — Google Search API for real-time market data
+| Technology | Purpose |
+|---|---|
+| **CrewAI** | Multi-agent orchestration framework |
+| **Google Gemini** | LLM for analysis and report generation |
+| **LiteLLM** | Unified LLM API interface (used internally by CrewAI) |
+| **SerperDev** | Google Search API for real-time market data |
+| **Flask** | Web server and API |
+| **HTML/CSS/JS** | Frontend UI |
 
-## Setup
+## Getting Started
 
-### 1. Install dependencies
+### Prerequisites
+
+- Python 3.12+
+- A Google Gemini API key (free)
+- A Serper API key (free tier: 2,500 searches)
+
+### Step 1 — Clone the repository
+
+```bash
+git clone https://github.com/AnmolSanger/Real_Estate_AI-Agent.git
+cd Real_Estate_AI-Agent
+```
+
+### Step 2 — Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Get API keys
+### Step 3 — Get API keys
 
-- **Gemini API Key** — [Google AI Studio](https://aistudio.google.com) → Get API Key
-- **Serper API Key** — [serper.dev](https://serper.dev) → Sign up (free tier: 2,500 searches)
+1. **Gemini API Key** — Go to [Google AI Studio](https://aistudio.google.com), sign in, click "Get API Key" and create one
+2. **Serper API Key** — Go to [serper.dev](https://serper.dev), sign up, and copy your API key from the dashboard
 
-### 3. Create `.env` file
+### Step 4 — Set up environment variables
 
-Copy `.env.example` to `.env` and add your keys:
+Create a `.env` file in the project root (you can copy from the example):
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` and add your keys:
 
 ```
 GOOGLE_API_KEY=your_gemini_api_key_here
 SERPER_API_KEY=your_serper_api_key_here
 ```
 
-### 4. Run
+### Step 5 — Run the application
+
+**Option A — Web App (recommended):**
+
+```bash
+python app.py
+```
+
+Open [http://localhost:5000](http://localhost:5000) in your browser. Enter a location and property type, then click "Analyze Properties". The agents will work through the analysis and display the report on screen.
+
+**Option B — Command Line:**
 
 ```bash
 python crew.py
 ```
 
+Follow the prompts to enter a location and property type. The report will print to the terminal and save to `investment_report.txt`.
+
 ## Project Structure
 
 ```
-├── crew.py          # Entry point — creates the crew and runs the pipeline
-├── agents.py        # Agent definitions (Researcher + Analyst)
-├── tasks.py         # Task definitions with dynamic location/property input
-├── tools.py         # External tools (web search)
-├── .env.example     # Template for API keys
-└── .gitignore       # Prevents secrets and cache from being committed
+├── app.py               # Flask web server with background job processing
+├── crew.py              # CLI entry point
+├── agents.py            # AI agent definitions (Researcher + Analyst)
+├── tasks.py             # Task definitions with dynamic user input
+├── tools.py             # External tools (Google Search via SerperDev)
+├── templates/
+│   └── index.html       # Web UI with form, loading animation, report display
+├── static/
+│   └── style.css        # Dark-themed responsive styling
+├── requirements.txt     # Python dependencies
+├── .env.example         # Template for required API keys
+└── .gitignore           # Prevents secrets and cache from being committed
 ```
+
+## Sample Output
+
+The report includes:
+
+- **Executive Summary** — Key findings and investment thesis
+- **Top Investment Picks** — Ranked properties with price, rental yield, and ROI projections
+- **Market Overview** — Current trends, growth drivers, demand-supply dynamics
+- **Risk Matrix** — Categorized risks (High/Medium/Low) with mitigation strategies
+- **Final Recommendation** — Clear invest/hold/avoid verdict with reasoning
