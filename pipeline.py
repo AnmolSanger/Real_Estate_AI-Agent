@@ -9,7 +9,12 @@ from agents import (
     create_financial_modeler,
     create_property_analyst,
 )
-from finance import calculate_metrics, is_plausible_deal
+from finance import (
+    DOWNSIDE_RATE_INCREASE_PCT,
+    DOWNSIDE_RENT_DROP_PCT,
+    calculate_metrics,
+    is_plausible_deal,
+)
 from schemas import (
     AnalysisResult,
     FinancialAssumptions,
@@ -36,6 +41,15 @@ def score_pick(pick, assumptions):
     return ScoredPick(**pick.model_dump(), metrics=PropertyMetrics(**metrics))
 
 
+def downside_metrics(pick, assumptions):
+    """Stress-test a property with lower rent and a higher interest rate."""
+    stressed = assumptions.model_copy(
+        update={"annual_interest_rate": assumptions.annual_interest_rate + DOWNSIDE_RATE_INCREASE_PCT}
+    )
+    lower_rent = pick.monthly_rent * (1 - DOWNSIDE_RENT_DROP_PCT / 100)
+    return PropertyMetrics(**calculate_metrics(pick.property_price, lower_rent, **stressed.model_dump()))
+
+
 def build_report(analyst_report, assumptions):
     """Combine the LLM's judgment with Python-computed metrics."""
     usable = [p for p in analyst_report.picks if is_plausible_deal(p.property_price, p.monthly_rent)]
@@ -51,6 +65,7 @@ def build_report(analyst_report, assumptions):
         picks=picks,
         rejected_picks=rejected,
         assumptions=assumptions,
+        downside=downside_metrics(top_pick, assumptions),
         roi_pct=top_pick.metrics.cash_on_cash_return_pct,
         cap_rate_pct=top_pick.metrics.cap_rate_pct,
         risk_score=analyst_report.risk_score,
@@ -86,6 +101,14 @@ def render_metrics_table(report):
         f"Assumptions: {assumptions.down_payment_pct:g}% down payment, "
         f"{assumptions.annual_interest_rate:g}% interest, {assumptions.loan_term_years} year loan, "
         f"{assumptions.vacancy_rate_pct:g}% vacancy, {assumptions.operating_expense_pct:g}% operating costs.",
+    ]
+    downside = report.downside
+    lines += [
+        "",
+        f"Downside for {report.picks[0].name} (rent {DOWNSIDE_RENT_DROP_PCT}% lower, interest "
+        f"{DOWNSIDE_RATE_INCREASE_PCT} point higher): Cap Rate {downside.cap_rate_pct:.2f}%, "
+        f"monthly EMI {downside.monthly_emi:,.0f}, annual cash flow {downside.annual_cash_flow:,.0f}, "
+        f"Cash-on-Cash {downside.cash_on_cash_return_pct:.2f}%.",
     ]
     if report.rejected_picks:
         lines += ["", f"Excluded for implausible price and rent data: {', '.join(report.rejected_picks)}."]

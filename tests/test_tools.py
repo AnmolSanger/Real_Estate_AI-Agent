@@ -10,6 +10,12 @@ def test_tool_returns_finance_engine_metrics():
     assert metrics["cap_rate_pct"] == 7.98
 
 
+def test_tool_rejects_per_square_foot_price():
+    result = roi_calculator.run(property_price=6_136, monthly_rent=30_000)
+
+    assert result.startswith("Rejected")
+
+
 def test_tool_returns_bad_input_as_text():
     result = roi_calculator.run(property_price=0, monthly_rent=10_000)
 

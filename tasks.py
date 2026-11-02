@@ -1,9 +1,10 @@
 from crewai import Task
 
+from finance import DOWNSIDE_RATE_INCREASE_PCT, DOWNSIDE_RENT_DROP_PCT
 from schemas import AnalystReport
 
 # Raise this whenever a prompt changes, so each report can be traced to its prompts.
-PROMPT_VERSION = "2"
+PROMPT_VERSION = "3"
 
 
 def create_research_task(location, property_type, agent):
@@ -60,13 +61,15 @@ def create_modeling_task(assumptions, agent, research_task):
         Steps:
         1. Drop any candidate whose price or rent is unknown, or whose price is per sq ft or per sq m
         2. Run the Real Estate ROI Calculator once for each remaining candidate
-        3. Run it once more for the best candidate as a downside case, with the rent
-           10% lower and the interest rate 1 percentage point higher
+        3. Drop any candidate the tool rejects, and record why
+        4. Run it once more for the best candidate as a downside case, with the rent
+           {DOWNSIDE_RENT_DROP_PCT}% lower and the interest rate {DOWNSIDE_RATE_INCREASE_PCT} percentage point higher
 
         Every metric must come from the tool. Never calculate one yourself.""",
         agent=agent,
         expected_output="""For each remaining candidate, ranked best first: its name, price, monthly rent,
-        currency, source URL and the tool's results. Also the downside case for the best candidate.""",
+        currency, source URL and the tool's results. Also the downside case for the best candidate
+        and a list of any dropped candidates with the reason.""",
         context=[research_task],
     )
 
@@ -84,6 +87,7 @@ def create_analysis_task(location, property_type, agent, research_task, modeling
         5. Final Recommendation (clear invest/hold/avoid verdict with reasoning)
 
         Rules:
+        - Only recommend or list candidates that remain in the financial model, never dropped ones
         - Base the verdict on the financial model, including the downside case
         - Do not write any NOI, Cap Rate, EMI, cash flow, ROI or Cash-on-Cash figures in markdown_summary.
           You may say whether a result is positive or negative. A verified metrics table is added after your text

@@ -52,6 +52,28 @@ def test_top_level_metrics_use_the_first_ranked_pick():
     assert report.cap_rate_pct != report.picks[1].metrics.cap_rate_pct
 
 
+def test_downside_stresses_the_top_pick_in_python():
+    assumptions = FinancialAssumptions()
+
+    report = pipeline.build_report(make_analyst_report(), assumptions)
+
+    # Rajpur Road with rent 30,000 -> 27,000 and interest 8.5% -> 9.5%.
+    expected = calculate_metrics(
+        8_000_000, 27_000, **{**assumptions.model_dump(), "annual_interest_rate": 9.5}
+    )
+    assert report.downside.model_dump() == expected
+    assert report.downside.cash_on_cash_return_pct < report.roi_pct
+    assert assumptions.annual_interest_rate == 8.5
+
+
+def test_downside_appears_in_the_report_text():
+    crew_output = SimpleNamespace(pydantic=make_analyst_report(), raw="raw text")
+
+    result = pipeline.build_result(crew_output, FinancialAssumptions())
+
+    assert "Downside for Rajpur Road" in result.markdown
+
+
 def make_pick(name, price, rent):
     return PropertyPick(
         name=name,

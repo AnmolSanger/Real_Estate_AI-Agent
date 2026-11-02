@@ -3,7 +3,12 @@ import json
 from crewai.tools import tool
 from crewai_tools import SerperDevTool
 
-from finance import calculate_metrics
+from finance import (
+    MAX_GROSS_YIELD_PCT,
+    MIN_GROSS_YIELD_PCT,
+    calculate_metrics,
+    is_plausible_deal,
+)
 
 
 def create_search_tool():
@@ -27,16 +32,24 @@ def roi_calculator(
     """
     # Return bad inputs as text so the agent can correct them instead of crashing the run.
     try:
-        return json.dumps(
-            calculate_metrics(
-                property_price,
-                monthly_rent,
-                down_payment_pct,
-                annual_interest_rate,
-                loan_term_years,
-                vacancy_rate_pct,
-                operating_expense_pct,
-            )
+        metrics = calculate_metrics(
+            property_price,
+            monthly_rent,
+            down_payment_pct,
+            annual_interest_rate,
+            loan_term_years,
+            vacancy_rate_pct,
+            operating_expense_pct,
         )
     except ValueError as error:
         return f"Invalid input: {error}"
+
+    # Caught here, the candidate is dropped before the Analyst writes about it.
+    if not is_plausible_deal(property_price, monthly_rent):
+        return (
+            "Rejected: this price and rent cannot describe the same property, because yearly "
+            f"rent is outside {MIN_GROSS_YIELD_PCT}-{MAX_GROSS_YIELD_PCT}% of the price. "
+            "Check the price is the full purchase price, otherwise drop this candidate."
+        )
+
+    return json.dumps(metrics)

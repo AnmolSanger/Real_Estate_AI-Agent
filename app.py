@@ -90,6 +90,11 @@ if submitted:
             risk_col.metric("Risk Score", f"{report.risk_score}/10")
             emi_col.metric(f"Monthly EMI ({top_pick.currency})", f"{top_pick.metrics.monthly_emi:,.0f}")
 
+            st.caption(
+                f"Downside (lower rent, higher interest): ROI {report.downside.cash_on_cash_return_pct:.2f}%, "
+                f"Cap Rate {report.downside.cap_rate_pct:.2f}%"
+            )
+
             pros_col, cons_col = st.columns(2)
             with pros_col:
                 st.markdown("**✅ Key Pros**")

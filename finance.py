@@ -5,6 +5,10 @@
 MIN_GROSS_YIELD_PCT = 1
 MAX_GROSS_YIELD_PCT = 15
 
+# The stress test for the top pick.
+DOWNSIDE_RENT_DROP_PCT = 10
+DOWNSIDE_RATE_INCREASE_PCT = 1
+
 
 def gross_yield_pct(property_price, monthly_rent):
     return monthly_rent * 12 / property_price * 100

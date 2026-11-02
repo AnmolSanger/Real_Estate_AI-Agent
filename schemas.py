@@ -51,6 +51,7 @@ class InvestmentReportSchema(BaseModel):
         default_factory=list, description="Picks dropped for implausible price and rent data"
     )
     assumptions: FinancialAssumptions
+    downside: PropertyMetrics = Field(description="Top pick under the stress test")
     roi_pct: float = Field(description="Top pick's first-year Cash-on-Cash Return")
     cap_rate_pct: float = Field(description="Top pick's Cap Rate")
     risk_score: int = Field(ge=1, le=10)
