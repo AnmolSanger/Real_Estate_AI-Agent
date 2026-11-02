@@ -5,6 +5,7 @@ from streamlit.testing.v1 import AppTest
 
 import pipeline
 from schemas import AnalysisResult
+from telemetry import RunTelemetry
 from tests.test_pipeline import make_analyst_report
 
 APP_PATH = str(Path(__file__).parent.parent / "app.py")
@@ -27,6 +28,32 @@ def test_structured_result_shows_metric_cards(monkeypatch):
     assert not app.exception
     assert [metric.value for metric in app.metric][:2] == ["-26.69%", "2.99%"]
     assert app.metric[2].value == "6/10"
+
+
+def test_telemetry_expander_shows_run_details(monkeypatch):
+    telemetry = RunTelemetry(
+        location="Pune", property_type="Retail", model="gemini-3.1-flash-lite", prompt_version="1"
+    )
+    telemetry.record_step(SimpleNamespace(agent="Researcher"))
+    telemetry.finish(
+        SimpleNamespace(
+            prompt_tokens=1000, completion_tokens=200, total_tokens=1200, successful_requests=3
+        )
+    )
+
+    def fake_run(*args):
+        return AnalysisResult(
+            markdown="report",
+            telemetry=telemetry,
+            artifacts={"report.md": "s3://bucket/reports/run1/report.md"},
+        )
+
+    app = submit_form(monkeypatch, fake_run)
+
+    assert not app.exception
+    assert {metric.label: metric.value for metric in app.metric}["Tokens"] == "1,200"
+    assert {metric.label: metric.value for metric in app.metric}["Est. Paid Cost"] == "$0.0006"
+    assert app.code[0].value == "s3://bucket/reports/run1/report.md"
 
 
 def test_raw_result_shows_warning_instead_of_cards(monkeypatch):

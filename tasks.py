@@ -2,6 +2,9 @@ from crewai import Task
 
 from schemas import AnalystReport
 
+# Raise this whenever a prompt changes, so each report can be traced to its prompts.
+PROMPT_VERSION = "2"
+
 
 def create_research_task(location, property_type, agent):
     return Task(
@@ -21,7 +24,8 @@ def create_research_task(location, property_type, agent):
            - Local economic development plans and upcoming projects
 
         3. Financial Inputs (for each of the 3 locations):
-           - Find one representative asking price and one representative monthly rent
+           - Find the total asking price of one whole unit and the monthly rent of a similar unit
+           - The price must be the full purchase price, never a price per sq ft or per sq m
            - Record the currency and the source URL
            - If you cannot find a real figure, write "unknown". Never invent one
            - Do not calculate ROI, Cap Rate or any other metric
@@ -54,7 +58,7 @@ def create_modeling_task(assumptions, agent, research_task):
         - Operating expenses: {assumptions.operating_expense_pct}% of rent
 
         Steps:
-        1. Drop any candidate whose price or rent is unknown
+        1. Drop any candidate whose price or rent is unknown, or whose price is per sq ft or per sq m
         2. Run the Real Estate ROI Calculator once for each remaining candidate
         3. Run it once more for the best candidate as a downside case, with the rent
            10% lower and the interest rate 1 percentage point higher

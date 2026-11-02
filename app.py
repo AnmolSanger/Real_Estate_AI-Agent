@@ -81,6 +81,9 @@ if submitted:
             top_pick = report.picks[0]
 
             st.caption(f"Top pick: {top_pick.name}")
+            if report.rejected_picks:
+                st.warning(f"Excluded for implausible price and rent data: {', '.join(report.rejected_picks)}")
+
             roi_col, cap_col, risk_col, emi_col = st.columns(4)
             roi_col.metric("ROI (Cash-on-Cash)", f"{report.roi_pct:.2f}%")
             cap_col.metric("Cap Rate", f"{report.cap_rate_pct:.2f}%")
@@ -107,3 +110,28 @@ if submitted:
             file_name=f"investment_report_{location.lower().replace(' ', '_')}.txt",
             mime="text/plain",
         )
+
+        if result.telemetry:
+            telemetry = result.telemetry
+
+            with st.expander("📈 MLOps Pipeline Telemetry"):
+                latency_col, tokens_col, requests_col, cost_col = st.columns(4)
+                latency_col.metric("Latency", f"{telemetry.latency_seconds:.1f}s")
+                tokens_col.metric("Tokens", f"{telemetry.total_tokens:,}")
+                requests_col.metric("LLM Requests", telemetry.llm_requests)
+                cost = telemetry.estimated_cost_usd
+                cost_col.metric("Est. Paid Cost", "n/a" if cost is None else f"${cost:.4f}")
+
+                st.markdown("**Agent steps completed**")
+                for step in telemetry.steps:
+                    st.markdown(f"- {step.agent} ({step.finished_after_seconds:.1f}s)")
+
+                st.markdown("**Run details**")
+                st.caption(
+                    f"Run {telemetry.run_id} · Model {telemetry.model} · "
+                    f"Prompt v{telemetry.prompt_version} · Code {telemetry.git_sha}"
+                )
+
+                st.markdown("**Saved artifacts**")
+                for location_saved in result.artifacts.values():
+                    st.code(location_saved, language=None)

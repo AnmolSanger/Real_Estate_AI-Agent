@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field
 
+from telemetry import RunTelemetry
+
 
 class FinancialAssumptions(BaseModel):
     """Loan and running-cost inputs chosen by the user, not the LLM."""
@@ -45,6 +47,9 @@ class InvestmentReportSchema(BaseModel):
     """The final report: LLM judgment plus metrics computed by Python."""
 
     picks: list[ScoredPick]
+    rejected_picks: list[str] = Field(
+        default_factory=list, description="Picks dropped for implausible price and rent data"
+    )
     assumptions: FinancialAssumptions
     roi_pct: float = Field(description="Top pick's first-year Cash-on-Cash Return")
     cap_rate_pct: float = Field(description="Top pick's Cap Rate")
@@ -59,3 +64,5 @@ class AnalysisResult(BaseModel):
 
     markdown: str
     report: InvestmentReportSchema | None = None
+    telemetry: RunTelemetry | None = None
+    artifacts: dict[str, str] = Field(default_factory=dict)

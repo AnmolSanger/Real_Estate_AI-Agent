@@ -1,5 +1,19 @@
 """Deterministic real estate formulas. Plain Python, no AI: same inputs, same outputs."""
 
+# Yearly rent as a percentage of price. Outside this range, the price and rent
+# almost certainly don't describe the same property (for example a per-sq-ft price).
+MIN_GROSS_YIELD_PCT = 1
+MAX_GROSS_YIELD_PCT = 15
+
+
+def gross_yield_pct(property_price, monthly_rent):
+    return monthly_rent * 12 / property_price * 100
+
+
+def is_plausible_deal(property_price, monthly_rent):
+    """Sanity-check LLM-sourced inputs, because correct math on bad inputs is still wrong."""
+    return MIN_GROSS_YIELD_PCT <= gross_yield_pct(property_price, monthly_rent) <= MAX_GROSS_YIELD_PCT
+
 
 def monthly_emi(loan_amount, annual_interest_rate, loan_term_years):
     """Fixed monthly payment: P * r * (1 + r)^n / ((1 + r)^n - 1)."""
