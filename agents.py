@@ -1,11 +1,21 @@
+import os
+
 from crewai import Agent, LLM
-from tools import create_search_tool
+from google.genai import types
+from tools import create_search_tool, roi_calculator
+
+# Gemini returns 503 during demand spikes. Wait and retry each call, because a
+# failed late step would otherwise throw away all the earlier agents' work.
+LLM_RETRIES = types.HttpOptions(
+    retry_options=types.HttpRetryOptions(attempts=6, initial_delay=5, max_delay=60),
+)
 
 
 def create_llm():
     return LLM(
-        model="gemini/gemini-3.6-flash",
+        model=os.getenv("GEMINI_MODEL", "gemini/gemini-3.1-flash-lite"),
         temperature=0,
+        client_params={"http_options": LLM_RETRIES},
     )
 
 
@@ -17,7 +27,7 @@ def create_property_researcher(llm):
             - Evaluating locations for demand, accessibility, and demographic alignment
             - Analyzing market trends, vacancy rates, and competitor presence
             - Assessing property conditions and potential renovation needs
-            - Calculating potential ROI including rental yields and capital appreciation
+            - Finding real asking prices and rents with their sources
             - Identifying emerging corridors and high-growth areas""",
         backstory="""You are a seasoned property market researcher with 15 years of experience across residential,
             commercial, retail, industrial, and mixed-use real estate.
@@ -28,6 +38,23 @@ def create_property_researcher(llm):
             and qualitative factors (neighborhood dynamics, market trends, future development plans).""",
         allow_delegation=False,
         tools=[create_search_tool()],
+        max_iter=8,
+        verbose=True,
+    )
+
+
+def create_financial_modeler(llm):
+    return Agent(
+        llm=llm,
+        role="Real Estate Financial Modeler",
+        goal="""Measure each candidate property's returns by running the ROI calculator tool
+            for every candidate and for a downside case. Never calculate a metric yourself.""",
+        backstory="""You are a careful financial modeler who trusts tools over mental math.
+            You reject missing or unsourced inputs, and you stress-test the best option
+            before anyone commits capital to it.""",
+        allow_delegation=False,
+        tools=[roi_calculator],
+        max_iter=6,
         verbose=True,
     )
 
@@ -38,7 +65,7 @@ def create_property_analyst(llm):
         role="Senior Investment Report Analyst",
         goal="""Create comprehensive, investor-focused property analysis reports by:
             - Synthesizing complex property data into clear, actionable insights
-            - Conducting detailed financial analysis including ROI projections, cash flow models, and risk assessments
+            - Interpreting the financial model's results and assessing risk
             - Evaluating property conditions, maintenance requirements, and improvement opportunities
             - Analyzing market positioning and competitive advantages
             - Providing clear recommendations backed by data-driven insights

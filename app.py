@@ -1,6 +1,7 @@
 import streamlit as st
 
 from pipeline import run_analysis
+from schemas import FinancialAssumptions
 
 st.set_page_config(
     page_title="Real Estate Investment AI Agent",
@@ -9,21 +10,27 @@ st.set_page_config(
 )
 
 st.title("🏢 Real Estate Investment AI Agent")
-st.markdown("Two specialized AI agents research and analyze real estate opportunities, delivering investor-grade reports in minutes.")
+st.markdown("Three specialized AI agents research, model and analyze real estate opportunities, with every financial metric calculated in code.")
 
 st.divider()
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown("**🔍 Agent 1 — Property Researcher**")
-    st.caption("Searches the web for market data, rental yields, ROI potential, and evaluates investment locations.")
+    st.markdown("**🔍 Agent 1 — Researcher**")
+    st.caption("Searches the web for market data, prices, rents and risks.")
 
 with col2:
-    st.markdown("**📊 Agent 2 — Property Analyst**")
-    st.caption("Synthesizes research into a structured investment report with rankings, risk analysis, and recommendations.")
+    st.markdown("**🧮 Agent 2 — Financial Modeler**")
+    st.caption("Runs the finance tool on each candidate, including a downside case.")
+
+with col3:
+    st.markdown("**📊 Agent 3 — Analyst**")
+    st.caption("Turns the findings into a ranked report with a clear recommendation.")
 
 st.divider()
+
+defaults = FinancialAssumptions()
 
 with st.form("analysis_form"):
     location = st.text_input("Location", placeholder="e.g., Mumbai, Berlin, New York")
@@ -32,17 +39,34 @@ with st.form("analysis_form"):
         ["Residential", "Commercial", "Retail", "Industrial", "Mixed-Use"],
     )
 
+    with st.expander("⚙️ Financing assumptions"):
+        st.caption("Illustrative defaults. Change them to match your own loan and costs.")
+        left, right = st.columns(2)
+        down_payment_pct = left.number_input("Down payment (%)", 1.0, 100.0, defaults.down_payment_pct)
+        annual_interest_rate = right.number_input("Interest rate (%)", 0.0, 30.0, defaults.annual_interest_rate)
+        loan_term_years = left.number_input("Loan term (years)", 1, 40, defaults.loan_term_years)
+        vacancy_rate_pct = right.number_input("Vacancy (%)", 0.0, 100.0, defaults.vacancy_rate_pct)
+        operating_expense_pct = left.number_input("Operating costs (% of rent)", 0.0, 100.0, defaults.operating_expense_pct)
+
     submitted = st.form_submit_button("🚀 Analyze Properties", use_container_width=True)
 
 if submitted:
     if not location:
         st.error("Please enter a location.")
     else:
+        assumptions = FinancialAssumptions(
+            down_payment_pct=down_payment_pct,
+            annual_interest_rate=annual_interest_rate,
+            loan_term_years=loan_term_years,
+            vacancy_rate_pct=vacancy_rate_pct,
+            operating_expense_pct=operating_expense_pct,
+        )
+
         with st.status("🤖 AI Agents are working...", expanded=True) as status:
-            st.write("🔍 Researcher agent is searching the web...")
-            st.write("📝 Analyst agent will compile the report next...")
+            st.write("🔍 Researcher, 🧮 Modeler and 📊 Analyst are running in order...")
+            st.write("⏳ This usually takes several minutes on the free Gemini tier.")
             try:
-                report = run_analysis(location, property_type)
+                result = run_analysis(location, property_type, assumptions)
             except Exception as error:
                 status.update(label="❌ Analysis failed", state="error")
                 st.error(f"The analysis could not finish. Please try again in a minute.\n\nDetails: {error}")
@@ -51,11 +75,35 @@ if submitted:
             status.update(label="✅ Analysis complete!", state="complete", expanded=False)
 
         st.subheader(f"📋 Investment Report — {property_type.title()} in {location.title()}")
-        st.markdown(report)
+
+        if result.report:
+            report = result.report
+            top_pick = report.picks[0]
+
+            st.caption(f"Top pick: {top_pick.name}")
+            roi_col, cap_col, risk_col, emi_col = st.columns(4)
+            roi_col.metric("ROI (Cash-on-Cash)", f"{report.roi_pct:.2f}%")
+            cap_col.metric("Cap Rate", f"{report.cap_rate_pct:.2f}%")
+            risk_col.metric("Risk Score", f"{report.risk_score}/10")
+            emi_col.metric(f"Monthly EMI ({top_pick.currency})", f"{top_pick.metrics.monthly_emi:,.0f}")
+
+            pros_col, cons_col = st.columns(2)
+            with pros_col:
+                st.markdown("**✅ Key Pros**")
+                st.markdown("\n".join(f"- {pro}" for pro in report.pros))
+            with cons_col:
+                st.markdown("**⚠️ Key Cons**")
+                st.markdown("\n".join(f"- {con}" for con in report.cons))
+
+            st.divider()
+        else:
+            st.warning("Metric cards are unavailable for this run, so the raw report is shown below.")
+
+        st.markdown(result.markdown)
 
         st.download_button(
             label="📥 Download Report",
-            data=report,
+            data=result.markdown,
             file_name=f"investment_report_{location.lower().replace(' ', '_')}.txt",
             mime="text/plain",
         )

@@ -12,13 +12,13 @@ def run():
 
     print(f"\nAnalyzing {property_type} properties in {location}...\n")
 
-    report = run_analysis(location, property_type)
+    result = run_analysis(location, property_type)
 
     print("\n--- Final Investment Report ---\n")
-    print(report)
+    print(result.markdown)
 
     with open("investment_report.txt", "w", encoding="utf-8") as report_file:
-        report_file.write(report)
+        report_file.write(result.markdown)
     print("\nReport saved to investment_report.txt")
 
 
