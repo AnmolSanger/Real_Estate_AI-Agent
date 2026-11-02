@@ -10,12 +10,12 @@ from schemas import FinancialAssumptions
 demo_password = os.getenv("DEMO_PASSWORD")
 
 st.set_page_config(
-    page_title="Real Estate Investment AI Agent",
+    page_title="EstateMind",
     page_icon="🏢",
     layout="centered",
 )
 
-st.title("🏢 Real Estate Investment AI Agent")
+st.title("🏢 EstateMind")
 st.markdown("Three specialized AI agents research, model and analyze real estate opportunities, with every financial metric calculated in code.")
 
 st.divider()

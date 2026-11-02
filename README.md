@@ -1,127 +1,157 @@
-# Real Estate Investment AI Agent
+# EstateMind
 
-A multi-agent AI system that analyzes real estate investment opportunities using CrewAI and Google Gemini. Two specialized AI agents — a Property Researcher and a Property Analyst — collaborate autonomously to produce investor-grade reports for any location and property type worldwide.
+[![CI](https://github.com/AnmolSanger/Real_Estate_AI-Agent/actions/workflows/ci.yml/badge.svg)](https://github.com/AnmolSanger/Real_Estate_AI-Agent/actions/workflows/ci.yml)
 
-## Features
+A multi-agent AI system that researches real estate markets and produces investment reports. LLM agents find properties and reason about them, while plain Python calculates every financial metric, so the numbers cannot be hallucinated.
 
-- **Multi-Agent Architecture** — Two AI agents with distinct roles work together in a pipeline
-- **Real-Time Web Research** — Researcher agent searches the web for live market data using Google Search API
-- **Investor-Grade Reports** — Analyst agent produces structured reports with ROI projections, risk matrices, and recommendations
-- **Dynamic Input** — Analyze any location with property types: Residential, Commercial, Retail, Industrial, Mixed-Use
-- **Streamlit Web Interface** — Interactive UI with real-time status updates and downloadable reports
-- **CLI Support** — Run directly from the terminal for quick analysis
+**Live demo:** [Streamlit app](https://estatemind-ui.onrender.com) (password protected) · [API docs](https://estatemind-api.onrender.com/docs) · [Sample report](docs/sample_report.md)
 
-## How It Works
+The free services sleep when idle, so the first request can take about a minute. Reports are a project demo, not investment advice.
 
-```
-User Input (Location + Property Type)
-        │
-        ▼
-┌─────────────────────────┐
-│   Property Researcher   │  → Searches the web for market data
-│       (Agent 1)         │  → Analyzes trends, yields, ROI
-│                         │  → Assesses risks and competition
-└───────────┬─────────────┘
-            │ Research findings passed as context
-            ▼
-┌─────────────────────────┐
-│    Property Analyst     │  → Reads research output
-│       (Agent 2)         │  → Creates structured report
-│                         │  → Ranks properties, adds risk matrix
-└───────────┬─────────────┘
-            │
-            ▼
-   Final Investment Report
+## How it works
+
+```text
+Streamlit UI ─┐
+FastAPI ──────┼─> pipeline.py
+CLI ──────────┘        │
+                       ▼
+        Researcher ──> Financial Modeler ──> Analyst
+        (web search)   (finance tool)        (written report)
+                       │
+                       ▼
+        Python drops implausible properties
+        Python computes every metric and the downside case
+                       │
+                       ▼
+        Report and telemetry saved to Backblaze B2
+        (or ./artifacts/ if the upload fails)
 ```
 
-## Tech Stack
+1. The **Researcher** searches the web for candidate properties, with prices, rents and sources.
+2. The **Financial Modeler** runs the deterministic ROI tool on each candidate, plus a downside case.
+3. The **Analyst** writes the report. It may say a result is positive or negative, but it does not write calculated figures.
+4. **Python** computes the final metrics and appends them as a verified table.
 
-| Technology | Purpose |
+## Design decisions
+
+| Decision | Why |
 |---|---|
-| **CrewAI** | Multi-agent orchestration framework |
-| **Google Gemini** | LLM for analysis and report generation |
-| **LiteLLM** | Unified LLM API interface (used internally by CrewAI) |
-| **SerperDev** | Google Search API for real-time market data |
-| **Streamlit** | Interactive web UI |
+| LLM picks inputs, Python does the math | LLMs make arithmetic mistakes. `finance.py` gives the same output for the same input every time |
+| One `pipeline.py` for every interface | Streamlit, the API and the CLI cannot drift apart |
+| Agents built per run | Concurrent runs share no state |
+| Loose parsing, then checks in Python | A strict schema rejected a whole run over one rent of 0. Now only the bad property is dropped |
+| Plausibility check on rent and price | A live run used a per-sq-ft price and produced a 3,901% Cap Rate |
+| `POST /analyze` returns a job ID | Reports take minutes, which is too long to hold an HTTP request open |
+| One job at a time | Each report makes about 18 LLM calls under one shared quota |
+| Finance tool in-process, also exposed over MCP | In-process is simpler for the crew, and MCP lets outside clients reuse the same formulas |
+| boto3 with a configurable endpoint | Storage works with Backblaze today and AWS S3 with config changes only |
 
-## Getting Started
+## Failure handling
 
-### Prerequisites
+| Failure | What happens |
+|---|---|
+| Gemini 429 rate limit | The crew stays under 4 requests a minute |
+| Gemini 503 overload | Each call retries with backoff, up to 6 attempts |
+| Bad price or rent | That property is excluded and named in the report |
+| No believable property | The written report stays, and no metrics are shown |
+| Storage upload fails | Files save to `./artifacts/`, and the report still returns |
+| Run crashes | Telemetry is still saved, and the user gets a readable error |
+| Agent gets stuck | Iteration limits and a 300-second time limit stop it |
 
-- Python 3.12+
-- A Google Gemini API key (free)
-- A Serper API key (free tier: 2,500 searches)
+## Evaluation
 
-### Step 1 — Clone the repository
+`evals/run_evals.py` runs 6 live reports across all five property types. Evals call real APIs, so they run by hand, not in CI. Full results are in [evals/results](evals/results).
+
+| Check | Prompt v3 | Prompt v4 | Prompt v5 |
+|---|---|---|---|
+| Runs completed | 6/6 | 5/6 | 6/6 |
+| Valid structured output | 100% | 83% | 100% |
+| Finance tool used | 100% | 83% | 100% |
+| Numbers match the engine | 100% | 83% | 100% |
+| No LLM-written metrics | 100% | 83% | 100% |
+| All sections present | 100% | 83% | 100% |
+| Plausible inputs | 100% | 83% | 100% |
+| Reliable sources | 67% | 83% | 100% |
+| Rent spread (limit 25%) | 0% | 31.4% | **46% (fails)** |
+
+- **v4** removed social media links as price sources, and exposed the strict-schema crash.
+- **v5** fixed that crash by moving value checks from parsing into Python.
+
+## Known limitations
+
+- **Inputs are not stable.** The same property's rent can differ a lot between runs, because each run samples different listings. The next fix is to average several listings per area.
+- **Correct math does not make inputs true.** A plausible but wrong price still passes. Figures come from web listings and are not verified against market data.
+- **The eval sample is small.** Six runs per version catch failures, but do not prove statistical confidence.
+- **Jobs live in memory.** A restart loses them, and only one server process is supported. Production would use a queue and a database.
+- **Prompt injection is reduced, not removed.** Locations are restricted and agents are told to ignore instructions in web pages.
+- **This is LLMOps, not classic MLOps.** There is no model training, registry or drift monitoring.
+
+## Run it locally
+
+You need Python 3.12 and free keys from [Google AI Studio](https://aistudio.google.com) and [Serper](https://serper.dev).
 
 ```bash
 git clone https://github.com/AnmolSanger/Real_Estate_AI-Agent.git
 cd Real_Estate_AI-Agent
+python -m venv .venv
+.venv\Scripts\pip install -r requirements-dev.txt
+copy .env.example .env
 ```
 
-### Step 2 — Install dependencies
+On macOS or Linux, use `.venv/bin/pip` and `cp` instead. Then add your keys to `.env`. Backblaze settings are optional: without them, reports save to `./artifacts/`.
+
+| Command | What it starts |
+|---|---|
+| `.venv\Scripts\python -m streamlit run app.py` | Streamlit app at `localhost:8501` |
+| `.venv\Scripts\python -m uvicorn api:app --port 8000` | API at `localhost:8000/docs` |
+| `.venv\Scripts\python crew.py` | Command line version |
+| `.venv\Scripts\python mcp_server.py` | MCP server over stdio |
+| `.venv\Scripts\python -m pytest` | Tests, with no API keys needed |
+| `.venv\Scripts\python -m evals.run_evals` | Live evals, which use API quota |
+
+### With Docker
 
 ```bash
-pip install -r requirements.txt
+docker compose up --build
 ```
 
-### Step 3 — Get API keys
+This starts both apps from one image. Secrets stay out of the image and are passed in from `.env`.
 
-1. **Gemini API Key** — Go to [Google AI Studio](https://aistudio.google.com), sign in, click "Get API Key" and create one
-2. **Serper API Key** — Go to [serper.dev](https://serper.dev), sign up, and copy your API key from the dashboard
+## API
 
-### Step 4 — Set up environment variables
-
-Create a `.env` file in the project root (you can copy from the example):
+Requests to `/analyze` and `/jobs` need an `X-API-Key` header.
 
 ```bash
-cp .env.example .env
+curl -X POST https://estatemind-api.onrender.com/analyze -H "X-API-Key: YOUR_KEY" -H "Content-Type: application/json" -d "{\"location\": \"Pune\", \"property_type\": \"Residential\"}"
 ```
 
-Then edit `.env` and add your keys:
+| Endpoint | Purpose |
+|---|---|
+| `GET /health` | Checks the service is alive, using no LLM calls |
+| `POST /analyze` | Starts a report and returns a job ID |
+| `GET /jobs/{job_id}` | Returns the status, then the report and telemetry |
 
-```
-GOOGLE_API_KEY=your_gemini_api_key_here
-SERPER_API_KEY=your_serper_api_key_here
-```
+## Project structure
 
-### Step 5 — Run the application
-
-**Option A — Web App (recommended):**
-
-```bash
-streamlit run app.py
-```
-
-The app opens automatically in your browser. Enter a location and property type, then click "Analyze Properties". The agents will work through the analysis and display the report on screen.
-
-**Option B — Command Line:**
-
-```bash
-python crew.py
-```
-
-Follow the prompts to enter a location and property type. The report will print to the terminal and save to `investment_report.txt`.
-
-## Project Structure
-
-```
-├── app.py               # Streamlit web app
-├── crew.py              # CLI entry point
-├── agents.py            # AI agent definitions (Researcher + Analyst)
-├── tasks.py             # Task definitions with dynamic user input
-├── tools.py             # External tools (Google Search via SerperDev)
-├── requirements.txt     # Python dependencies
-├── .env.example         # Template for required API keys
-└── .gitignore           # Prevents secrets and cache from being committed
+```text
+├── pipeline.py        # Core path used by every interface
+├── agents.py          # Researcher, Financial Modeler and Analyst
+├── tasks.py           # Prompts and the prompt version
+├── tools.py           # Search tool and ROI calculator tool
+├── finance.py         # Deterministic formulas and plausibility check
+├── schemas.py         # Pydantic models
+├── telemetry.py       # Latency, tokens, cost and run metadata
+├── storage.py         # S3-compatible storage with local fallback
+├── app.py             # Streamlit app
+├── api.py             # FastAPI service
+├── crew.py            # Command line entry point
+├── mcp_server.py      # MCP server for the finance engine
+├── evals/             # Live evaluation suite and saved results
+├── tests/             # Mocked test suite
+├── docs/              # Sample report
+└── Dockerfile         # One image for the API and Streamlit
 ```
 
-## Sample Output
+## Tech stack
 
-The report includes:
-
-- **Executive Summary** — Key findings and investment thesis
-- **Top Investment Picks** — Ranked properties with price, rental yield, and ROI projections
-- **Market Overview** — Current trends, growth drivers, demand-supply dynamics
-- **Risk Matrix** — Categorized risks (High/Medium/Low) with mitigation strategies
-- **Final Recommendation** — Clear invest/hold/avoid verdict with reasoning
+Python, CrewAI, Gemini, MCP, FastAPI, Streamlit, Pydantic, Serper, boto3, Backblaze B2, Docker, Render, pytest, GitHub Actions.

@@ -2,7 +2,7 @@ from pipeline import run_analysis
 
 
 def run():
-    print("\n--- Real Estate Investment AI Agent ---\n")
+    print("\n--- EstateMind ---\n")
     location = input("Enter the location to analyze (e.g., Mumbai, Berlin, New York): ").strip()
     property_type = input("Enter the property type (e.g., retail, residential, commercial): ").strip()
 
