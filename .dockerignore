@@ -1,0 +1,17 @@
+# Secrets stay out of the image. They are passed in when a container starts.
+.env
+
+.git
+.claude
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+artifacts
+tests
+requirements-dev.txt
+pytest.ini
+investment_report.txt
+Dockerfile
+docker-compose.yml

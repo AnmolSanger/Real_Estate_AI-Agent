@@ -56,6 +56,34 @@ def test_telemetry_expander_shows_run_details(monkeypatch):
     assert app.code[0].value == "s3://bucket/reports/run1/report.md"
 
 
+def test_wrong_demo_password_blocks_the_run(monkeypatch):
+    monkeypatch.setenv("DEMO_PASSWORD", "open-sesame")
+
+    def must_not_run(*args):
+        raise AssertionError("The crew must not start")
+
+    monkeypatch.setattr(pipeline, "run_analysis", must_not_run)
+    app = AppTest.from_file(APP_PATH, default_timeout=60).run()
+    app.text_input[0].set_value("Dehradun")
+    app.text_input[1].set_value("wrong")
+    app = app.button[0].click().run()
+
+    assert not app.exception
+    assert app.error[0].value == "Incorrect demo password."
+
+
+def test_correct_demo_password_allows_the_run(monkeypatch):
+    monkeypatch.setenv("DEMO_PASSWORD", "open-sesame")
+    monkeypatch.setattr(pipeline, "run_analysis", lambda *args: AnalysisResult(markdown="report"))
+    app = AppTest.from_file(APP_PATH, default_timeout=60).run()
+    app.text_input[0].set_value("Dehradun")
+    app.text_input[1].set_value("open-sesame")
+    app = app.button[0].click().run()
+
+    assert not app.exception
+    assert not app.error
+
+
 def test_raw_result_shows_warning_instead_of_cards(monkeypatch):
     app = submit_form(monkeypatch, lambda *args: AnalysisResult(markdown="raw report"))
 

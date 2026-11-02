@@ -1,7 +1,13 @@
+import os
+import secrets
+
 import streamlit as st
 
 from pipeline import run_analysis
 from schemas import FinancialAssumptions
+
+# Set on public deployments, so strangers cannot spend the Gemini and Serper quotas.
+demo_password = os.getenv("DEMO_PASSWORD")
 
 st.set_page_config(
     page_title="Real Estate Investment AI Agent",
@@ -48,11 +54,15 @@ with st.form("analysis_form"):
         vacancy_rate_pct = right.number_input("Vacancy (%)", 0.0, 100.0, defaults.vacancy_rate_pct)
         operating_expense_pct = left.number_input("Operating costs (% of rent)", 0.0, 100.0, defaults.operating_expense_pct)
 
+    entered_password = st.text_input("Demo password", type="password") if demo_password else ""
+
     submitted = st.form_submit_button("🚀 Analyze Properties", use_container_width=True)
 
 if submitted:
     if not location:
         st.error("Please enter a location.")
+    elif demo_password and not secrets.compare_digest(entered_password.encode(), demo_password.encode()):
+        st.error("Incorrect demo password.")
     else:
         assumptions = FinancialAssumptions(
             down_payment_pct=down_payment_pct,

@@ -1,0 +1,23 @@
+# Runs both apps from one image: docker compose up --build
+services:
+  api:
+    build: .
+    image: estatemind
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      # Containers lose their files when removed, so keep fallback reports on the laptop.
+      - ./artifacts:/app/artifacts
+
+  ui:
+    image: estatemind
+    depends_on:
+      - api
+    env_file: .env
+    environment:
+      APP_MODE: ui
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./artifacts:/app/artifacts
