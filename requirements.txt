@@ -1,4 +1,5 @@
 crewai[google-genai]==1.15.17
 crewai-tools==1.15.17
+mcp==1.28.1
 python-dotenv==1.2.3
 streamlit==1.66.1
