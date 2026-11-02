@@ -1,8 +1,7 @@
 from crewai import Task
-from agents import property_researcher, property_analyst
 
 
-def create_research_task(location, property_type):
+def create_research_task(location, property_type, agent):
     return Task(
         description=f"""Conduct a comprehensive analysis of potential {property_type} property investments in {location}.
 
@@ -32,7 +31,7 @@ def create_research_task(location, property_type):
            - Identify potential long-term growth barriers
 
         Deliverable: A comprehensive, data-driven investment recommendation report.""",
-        agent=property_researcher,
+        agent=agent,
         expected_output=f"""Detailed report containing:
         - Market analysis summary for {property_type} properties in {location}
         - Top 3-5 recommended investment opportunities with specific details
@@ -42,7 +41,7 @@ def create_research_task(location, property_type):
     )
 
 
-def create_analysis_task(location, property_type, research_task):
+def create_analysis_task(location, property_type, agent, research_task):
     return Task(
         description=f"""Using the research findings on {property_type} properties in {location}, create a
         professional investor-grade summary report.
@@ -60,7 +59,7 @@ def create_analysis_task(location, property_type, research_task):
 
         Format the report professionally with clear headings and bullet points.
         Use actual numbers and percentages wherever possible.""",
-        agent=property_analyst,
+        agent=agent,
         expected_output="""A professional investor summary report with:
         - Executive summary with clear investment thesis
         - Ranked list of top picks with financial metrics
@@ -68,5 +67,4 @@ def create_analysis_task(location, property_type, research_task):
         - Risk matrix with categorized risks
         - Clear final recommendation with reasoning""",
         context=[research_task],
-        output_file="investment_report.txt",
     )

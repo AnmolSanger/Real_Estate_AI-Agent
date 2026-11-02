@@ -1,11 +1,6 @@
 import streamlit as st
-from dotenv import load_dotenv
 
-load_dotenv()
-
-from crewai import Crew
-from agents import property_researcher, property_analyst
-from tasks import create_research_task, create_analysis_task
+from pipeline import run_analysis
 
 st.set_page_config(
     page_title="Real Estate Investment AI Agent",
@@ -44,29 +39,23 @@ if submitted:
         st.error("Please enter a location.")
     else:
         with st.status("🤖 AI Agents are working...", expanded=True) as status:
-            st.write("🔍 Researcher agent searching the web...")
-            research_task = create_research_task(location, property_type)
-
-            st.write("📈 Analyzing market data and financials...")
-            analysis_task = create_analysis_task(location, property_type, research_task)
-
-            crew = Crew(
-                agents=[property_researcher, property_analyst],
-                tasks=[research_task, analysis_task],
-                verbose=True,
-            )
-
-            st.write("📝 Analyst agent compiling the report...")
-            result = crew.kickoff()
+            st.write("🔍 Researcher agent is searching the web...")
+            st.write("📝 Analyst agent will compile the report next...")
+            try:
+                report = run_analysis(location, property_type)
+            except Exception as error:
+                status.update(label="❌ Analysis failed", state="error")
+                st.error(f"The analysis could not finish. Please try again in a minute.\n\nDetails: {error}")
+                st.stop()
 
             status.update(label="✅ Analysis complete!", state="complete", expanded=False)
 
         st.subheader(f"📋 Investment Report — {property_type.title()} in {location.title()}")
-        st.markdown(str(result))
+        st.markdown(report)
 
         st.download_button(
             label="📥 Download Report",
-            data=str(result),
+            data=report,
             file_name=f"investment_report_{location.lower().replace(' ', '_')}.txt",
             mime="text/plain",
         )

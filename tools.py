@@ -1,3 +1,5 @@
 from crewai_tools import SerperDevTool
 
-search_tool = SerperDevTool()
+
+def create_search_tool():
+    return SerperDevTool()

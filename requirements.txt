@@ -1,4 +1,4 @@
-crewai==1.15.17
+crewai[google-genai]==1.15.17
 crewai-tools==1.15.17
 python-dotenv==1.2.3
-streamlit
+streamlit==1.66.1

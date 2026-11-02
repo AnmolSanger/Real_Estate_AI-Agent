@@ -1,10 +1,4 @@
-from dotenv import load_dotenv
-
-load_dotenv()
-
-from crewai import Crew
-from agents import property_researcher, property_analyst
-from tasks import create_research_task, create_analysis_task
+from pipeline import run_analysis
 
 
 def run():
@@ -18,18 +12,13 @@ def run():
 
     print(f"\nAnalyzing {property_type} properties in {location}...\n")
 
-    research_task = create_research_task(location, property_type)
-    analysis_task = create_analysis_task(location, property_type, research_task)
+    report = run_analysis(location, property_type)
 
-    crew = Crew(
-        agents=[property_researcher, property_analyst],
-        tasks=[research_task, analysis_task],
-        verbose=True,
-    )
-
-    result = crew.kickoff()
     print("\n--- Final Investment Report ---\n")
-    print(result)
+    print(report)
+
+    with open("investment_report.txt", "w", encoding="utf-8") as report_file:
+        report_file.write(report)
     print("\nReport saved to investment_report.txt")
 
 
