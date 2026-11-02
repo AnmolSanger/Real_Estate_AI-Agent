@@ -39,5 +39,21 @@ def test_fail_records_a_shortened_error():
     assert len(telemetry.error) == 300
 
 
+def test_step_counts_tool_calls():
+    telemetry = make_telemetry()
+    messages = [{"role": "assistant"}, {"role": "tool"}, {"role": "tool"}]
+
+    telemetry.record_step(SimpleNamespace(agent="Modeler", messages=messages))
+
+    assert telemetry.steps[0].tool_calls == 2
+
+
+def test_render_commit_is_used_as_version(monkeypatch):
+    monkeypatch.delenv("GIT_SHA", raising=False)
+    monkeypatch.setenv("RENDER_GIT_COMMIT", "83b465b1234567890")
+
+    assert make_telemetry().git_sha == "83b465b"
+
+
 def test_runs_get_unique_ids():
     assert make_telemetry().run_id != make_telemetry().run_id

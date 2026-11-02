@@ -1,0 +1,204 @@
+{
+  "prompt_version": "4",
+  "finished_at": "2026-11-02T18:47:27.042473+00:00",
+  "runs_completed": 5,
+  "runs_total": 6,
+  "pass_rates": {
+    "schema_valid": 83,
+    "finance_tool_used": 83,
+    "numbers_match_engine": 83,
+    "no_metrics_in_text": 83,
+    "sections_present": 83,
+    "plausible_inputs": 83,
+    "reliable_sources": 83
+  },
+  "rent_spread_pct": 31.4,
+  "max_rent_spread_pct": 25,
+  "runs": [
+    {
+      "location": "Pune",
+      "property_type": "Residential",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 90.48,
+      "total_tokens": 65268,
+      "picks": [
+        {
+          "name": "Kharadi",
+          "price": 11300000.0,
+          "rent": 46000.0,
+          "source": "https://www.magicbricks.com/2-bhk-flats-in-kharadi-pune-for-sale-pppfs"
+        },
+        {
+          "name": "Hinjewadi",
+          "price": 8460000.0,
+          "rent": 28000.0,
+          "source": "https://www.magicbricks.com/2-bhk-flats-in-hinjewadi-pune-for-sale-pppfs"
+        },
+        {
+          "name": "Baner",
+          "price": 11000000.0,
+          "rent": 35000.0,
+          "source": "https://www.99acres.com/2-bhk-flats-in-baner-pune-ffid"
+        }
+      ]
+    },
+    {
+      "location": "Bengaluru",
+      "property_type": "Commercial",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 101.6,
+      "total_tokens": 56520,
+      "picks": [
+        {
+          "name": "Indiranagar",
+          "price": 344400000.0,
+          "rent": 1000000.0,
+          "source": "https://www.magicbricks.com/office-space-for-sale-in-indira-nagar-bangalore-pppfs"
+        }
+      ]
+    },
+    {
+      "location": "Mumbai",
+      "property_type": "Retail",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 91.6,
+      "total_tokens": 74130,
+      "picks": [
+        {
+          "name": "BKC (Bandra Kurla Complex)",
+          "price": 160800000.0,
+          "rent": 2000000.0,
+          "source": "https://www.addressofchoice.com/trade-centre-bkc-bandra-kurla-complex-mumbai-p47552"
+        },
+        {
+          "name": "Lower Parel",
+          "price": 25000000.0,
+          "rent": 175000.0,
+          "source": "https://www.99acres.com/commercial-shops-in-lower-parel-south-mumbai-ffid"
+        },
+        {
+          "name": "Bandra West",
+          "price": 100000000.0,
+          "rent": 300000.0,
+          "source": "https://www.99acres.com/commercial-shops-in-bandra-west-western-mumbai-ffid"
+        }
+      ]
+    },
+    {
+      "location": "Chennai",
+      "property_type": "Industrial",
+      "scores": {
+        "schema_valid": false,
+        "finance_tool_used": false,
+        "numbers_match_engine": false,
+        "no_metrics_in_text": false,
+        "sections_present": false,
+        "plausible_inputs": false,
+        "reliable_sources": false
+      },
+      "error": "Task execution failed: Failed to validate structured output with model AnalystReport: 3 validation errors for AnalystReport\npicks.0.monthly_rent\n  Input should be greater than 0 [type=greater_than, in",
+      "latency_seconds": null,
+      "total_tokens": null,
+      "picks": []
+    },
+    {
+      "location": "Hyderabad",
+      "property_type": "Mixed-Use",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 127.49,
+      "total_tokens": 60288,
+      "picks": [
+        {
+          "name": "Gachibowli",
+          "price": 85800000.0,
+          "rent": 489000.0,
+          "source": "https://www.99acres.com/commercial-property-in-gachibowli-hyderabad-ffid"
+        },
+        {
+          "name": "Kokapet",
+          "price": 31000000.0,
+          "rent": 155000.0,
+          "source": "https://www.99acres.com/commercial-property-in-kokapet-hyderabad-ffid"
+        },
+        {
+          "name": "Nanakramguda",
+          "price": 55000000.0,
+          "rent": 275000.0,
+          "source": "https://www.99acres.com/commercial-property-in-nanakramguda-hyderabad-ffid"
+        }
+      ]
+    },
+    {
+      "location": "Pune",
+      "property_type": "Residential",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 71.72,
+      "total_tokens": 65532,
+      "picks": [
+        {
+          "name": "Kharadi",
+          "price": 8560000.0,
+          "rent": 35000.0,
+          "source": "https://www.commonfloor.com/pune-property/in-kharadi-r51b98eeabc2aa/for-rent/apartment-ht/2-bhk/projects"
+        },
+        {
+          "name": "Hinjewadi",
+          "price": 8819000.0,
+          "rent": 28000.0,
+          "source": "https://www.magicbricks.com/2-bhk-flats-in-hinjewadi-pune-for-sale-pppfs"
+        },
+        {
+          "name": "Baner",
+          "price": 11000000.0,
+          "rent": 33000.0,
+          "source": "https://www.99acres.com/2-bhk-flats-for-rent-in-baner-pune-ffid"
+        }
+      ]
+    }
+  ]
+}

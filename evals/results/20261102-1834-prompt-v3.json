@@ -1,0 +1,223 @@
+{
+  "prompt_version": "3",
+  "finished_at": "2026-11-02T18:34:11.537765+00:00",
+  "runs_completed": 6,
+  "runs_total": 6,
+  "pass_rates": {
+    "schema_valid": 100,
+    "finance_tool_used": 100,
+    "numbers_match_engine": 100,
+    "no_metrics_in_text": 100,
+    "sections_present": 100,
+    "plausible_inputs": 100,
+    "reliable_sources": 67
+  },
+  "rent_spread_pct": 0.0,
+  "max_rent_spread_pct": 25,
+  "runs": [
+    {
+      "location": "Pune",
+      "property_type": "Residential",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": false
+      },
+      "error": null,
+      "latency_seconds": 99.9,
+      "total_tokens": 62178,
+      "picks": [
+        {
+          "name": "Kharadi",
+          "price": 8890000.0,
+          "rent": 30000.0,
+          "source": "https://www.99acres.com/2-bhk-flats-in-kharadi-pune-ffid"
+        },
+        {
+          "name": "Baner",
+          "price": 11500000.0,
+          "rent": 32000.0,
+          "source": "https://www.magicbricks.com/2-bhk-flats-in-baner-pune-for-sale-pppfs"
+        },
+        {
+          "name": "Hinjewadi",
+          "price": 8819000.0,
+          "rent": 23000.0,
+          "source": "https://www.instagram.com/reel/DJblJf5IjR_/?hl=en"
+        }
+      ]
+    },
+    {
+      "location": "Bengaluru",
+      "property_type": "Commercial",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 84.94,
+      "total_tokens": 59853,
+      "picks": [
+        {
+          "name": "Hebbal",
+          "price": 62500000.0,
+          "rent": 469000.0,
+          "source": "https://www.nobroker.in/commercial-properties-for-sale-in-hebbal_bangalore"
+        },
+        {
+          "name": "Whitefield",
+          "price": 62000000.0,
+          "rent": 336333.0,
+          "source": "https://www.magicbricks.com/office-space-for-sale-in-whitefield-bangalore-pppfs"
+        },
+        {
+          "name": "HSR Layout",
+          "price": 320000000.0,
+          "rent": 1600000.0,
+          "source": "https://www.magicbricks.com/commercial-property-for-sale-in-hsr-layout-bangalore-pppfs"
+        }
+      ]
+    },
+    {
+      "location": "Mumbai",
+      "property_type": "Retail",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 89.7,
+      "total_tokens": 54309,
+      "picks": [
+        {
+          "name": "Lower Parel (Near Phoenix)",
+          "price": 25500000.0,
+          "rent": 150000.0,
+          "source": "https://www.99acres.com/commercial-shops-in-lower-parel-south-mumbai-ffid"
+        }
+      ]
+    },
+    {
+      "location": "Chennai",
+      "property_type": "Industrial",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 98.43,
+      "total_tokens": 62613,
+      "picks": [
+        {
+          "name": "Sriperumbudur Industrial Unit",
+          "price": 22500000.0,
+          "rent": 150000.0,
+          "source": "https://www.nobroker.in/warehouse-godown-for-sale-in-sriperumbudur_chennai"
+        },
+        {
+          "name": "Oragadam Industrial Warehouse",
+          "price": 46000000.0,
+          "rent": 300000.0,
+          "source": "https://housing.com/commercial/buy/resale/100231945-warehouse-for-sale-in-oragadam-vaipoor-for-rs-46000000"
+        },
+        {
+          "name": "Ambattur Industrial Facility",
+          "price": 120000000.0,
+          "rent": 750000.0,
+          "source": "https://www.99acres.com/factory-land-in-ambattur-chennai-north-ffid"
+        }
+      ]
+    },
+    {
+      "location": "Hyderabad",
+      "property_type": "Mixed-Use",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": false
+      },
+      "error": null,
+      "latency_seconds": 101.14,
+      "total_tokens": 62352,
+      "picks": [
+        {
+          "name": "Gachibowli",
+          "price": 85800000.0,
+          "rent": 489000.0,
+          "source": "https://www.99acres.com/commercial-property-in-gachibowli-hyderabad-ffid"
+        },
+        {
+          "name": "Financial District",
+          "price": 19500000.0,
+          "rent": 80000.0,
+          "source": "https://www.instagram.com/reel/DQWsT4HkzIt/"
+        },
+        {
+          "name": "Kokapet",
+          "price": 39600000.0,
+          "rent": 155000.0,
+          "source": "https://www.99acres.com/commercial-property-in-kokapet-hyderabad-ffid"
+        }
+      ]
+    },
+    {
+      "location": "Pune",
+      "property_type": "Residential",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 261.29,
+      "total_tokens": 61968,
+      "picks": [
+        {
+          "name": "Kharadi",
+          "price": 9500000.0,
+          "rent": 29990.0,
+          "source": "https://www.olx.in/kharadi_g5325474/rent-apartments_c1723"
+        },
+        {
+          "name": "Baner",
+          "price": 11500000.0,
+          "rent": 32000.0,
+          "source": "https://www.magicbricks.com/2-bhk-flats-in-baner-pune-for-sale-pppfs"
+        },
+        {
+          "name": "Hinjewadi",
+          "price": 8819000.0,
+          "rent": 23000.0,
+          "source": "https://www.magicbricks.com/2-bhk-flats-in-hinjewadi-pune-for-sale-pppfs"
+        }
+      ]
+    }
+  ]
+}

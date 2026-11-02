@@ -12,9 +12,10 @@ MODEL_PRICES = {"gemini-3.1-flash-lite": (0.25, 1.50)}
 
 
 def get_git_sha():
-    """Identify the code version. Docker sets GIT_SHA because images have no .git folder."""
-    if os.getenv("GIT_SHA"):
-        return os.environ["GIT_SHA"]
+    """Identify the code version. Images have no .git folder, so hosts provide it instead."""
+    hosted_sha = os.getenv("GIT_SHA") or os.getenv("RENDER_GIT_COMMIT")
+    if hosted_sha:
+        return hosted_sha[:7]
     try:
         output = subprocess.run(
             ["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, check=True
@@ -35,6 +36,7 @@ def estimate_cost(model, prompt_tokens, completion_tokens):
 class StepRecord(BaseModel):
     agent: str
     finished_after_seconds: float
+    tool_calls: int = 0
 
 
 class RunTelemetry(BaseModel):
@@ -64,8 +66,13 @@ class RunTelemetry(BaseModel):
 
     def record_step(self, task_output):
         """Crew task_callback: runs each time an agent finishes its task."""
+        messages = getattr(task_output, "messages", None) or []
         self.steps.append(
-            StepRecord(agent=str(task_output.agent).strip(), finished_after_seconds=self._elapsed())
+            StepRecord(
+                agent=str(task_output.agent).strip(),
+                finished_after_seconds=self._elapsed(),
+                tool_calls=sum(message.get("role") == "tool" for message in messages),
+            )
         )
 
     def finish(self, token_usage):

@@ -1,0 +1,205 @@
+{
+  "prompt_version": "5",
+  "finished_at": "2026-11-02T19:09:39.754657+00:00",
+  "runs_completed": 6,
+  "runs_total": 6,
+  "pass_rates": {
+    "schema_valid": 100,
+    "finance_tool_used": 100,
+    "numbers_match_engine": 100,
+    "no_metrics_in_text": 100,
+    "sections_present": 100,
+    "plausible_inputs": 100,
+    "reliable_sources": 100
+  },
+  "rent_spread_pct": 46.0,
+  "max_rent_spread_pct": 25,
+  "runs": [
+    {
+      "location": "Pune",
+      "property_type": "Residential",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 166.94,
+      "total_tokens": 59994,
+      "picks": [
+        {
+          "name": "Kharadi",
+          "price": 11300000.0,
+          "rent": 31500.0,
+          "source": "https://www.magicbricks.com/2-bhk-flats-in-kharadi-pune-for-sale-pppfs / https://www.99acres.com/2-bhk-flats-for-rent-in-kharadi-pune-ffid"
+        }
+      ]
+    },
+    {
+      "location": "Bengaluru",
+      "property_type": "Commercial",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 384.73,
+      "total_tokens": 57237,
+      "picks": [
+        {
+          "name": "Whitefield",
+          "price": 62000000.0,
+          "rent": 336333.0,
+          "source": "https://www.magicbricks.com/office-space-for-sale-in-whitefield-bangalore-pppfs"
+        },
+        {
+          "name": "Indiranagar",
+          "price": 344400000.0,
+          "rent": 1000000.0,
+          "source": "https://www.magicbricks.com/office-space-for-sale-in-indira-nagar-bangalore-pppfs"
+        }
+      ]
+    },
+    {
+      "location": "Mumbai",
+      "property_type": "Retail",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 69.54,
+      "total_tokens": 72834,
+      "picks": [
+        {
+          "name": "BKC (Bandra Kurla Complex)",
+          "price": 29100000.0,
+          "rent": 296000.0,
+          "source": "https://www.addressofchoice.com/trade-centre-bkc-bandra-kurla-complex-mumbai-p47552"
+        },
+        {
+          "name": "Lower Parel",
+          "price": 25000000.0,
+          "rent": 145000.0,
+          "source": "https://www.99acres.com/commercial-shops-in-lower-parel-south-mumbai-ffid"
+        }
+      ]
+    },
+    {
+      "location": "Chennai",
+      "property_type": "Industrial",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 202.13,
+      "total_tokens": 60465,
+      "picks": [
+        {
+          "name": "Sriperumbudur",
+          "price": 11000000.0,
+          "rent": 65000.0,
+          "source": "https://www.hanureddyrealty.com/properties/buy/scw-wc-004-sq-ft-commercial-warehouse-for-sale-at-sriperumbudur-kanchipuram"
+        },
+        {
+          "name": "Oragadam",
+          "price": 46000000.0,
+          "rent": 250000.0,
+          "source": "https://housing.com/commercial/buy/resale/100231945-warehouse-for-sale-in-oragadam-vaipoor-for-rs-46000000"
+        },
+        {
+          "name": "Red Hills",
+          "price": 22500000.0,
+          "rent": 110000.0,
+          "source": "https://www.magicbricks.com/commercial-property-for-sale-in-red-hills-chennai-pppfs"
+        }
+      ]
+    },
+    {
+      "location": "Hyderabad",
+      "property_type": "Mixed-Use",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 132.73,
+      "total_tokens": 60144,
+      "picks": [
+        {
+          "name": "Gachibowli",
+          "price": 85800000.0,
+          "rent": 489000.0,
+          "source": "https://www.99acres.com/commercial-property-in-gachibowli-hyderabad-ffid"
+        },
+        {
+          "name": "Kokapet",
+          "price": 31000000.0,
+          "rent": 155000.0,
+          "source": "https://www.99acres.com/commercial-property-in-kokapet-hyderabad-ffid"
+        },
+        {
+          "name": "Nanakramguda",
+          "price": 55000000.0,
+          "rent": 275000.0,
+          "source": "https://www.99acres.com/commercial-property-in-nanakramguda-hyderabad-ffid"
+        }
+      ]
+    },
+    {
+      "location": "Pune",
+      "property_type": "Residential",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true
+      },
+      "error": null,
+      "latency_seconds": 100.34,
+      "total_tokens": 94956,
+      "picks": [
+        {
+          "name": "Kharadi",
+          "price": 11300000.0,
+          "rent": 46000.0,
+          "source": "https://www.magicbricks.com/2-bhk-flats-in-kharadi-pune-for-sale-pppfs / https://www.99acres.com/2-bhk-flats-for-rent-in-kharadi-pune-ffid"
+        },
+        {
+          "name": "Baner",
+          "price": 11000000.0,
+          "rent": 36000.0,
+          "source": "https://www.squareyards.com/sale/2-bhk-for-sale-in-baner-pune / https://findghosla.com/flats-for-rent-in-baner-pune"
+        }
+      ]
+    }
+  ]
+}

@@ -108,6 +108,39 @@ def test_mismatched_price_and_rent_is_excluded():
     assert report.rejected_picks == ["Mismatch"]
 
 
+def test_zero_rent_parses_and_drops_only_that_pick():
+    # Seen in a live run: the LLM wrote 0 for an industrial listing with no rent.
+    picks = [make_pick("No Rent", 22_500_000, 0), make_pick("Real Price", 5_000_000, 25_000)]
+
+    report = pipeline.build_report(make_analyst_report(picks), FinancialAssumptions())
+
+    assert [pick.name for pick in report.picks] == ["Real Price"]
+    assert report.rejected_picks == ["No Rent"]
+
+
+def test_zero_rent_on_every_pick_keeps_the_written_report():
+    crew_output = SimpleNamespace(
+        pydantic=make_analyst_report([make_pick("No Rent", 22_500_000, 0)]), raw="raw text"
+    )
+
+    result = pipeline.build_result(crew_output, FinancialAssumptions())
+
+    assert result.report is None
+    assert result.markdown.startswith("# Report")
+
+
+def test_out_of_range_risk_score_keeps_the_written_report():
+    analyst_report = make_analyst_report()
+    analyst_report.risk_score = 0
+
+    result = pipeline.build_result(
+        SimpleNamespace(pydantic=analyst_report, raw="raw text"), FinancialAssumptions()
+    )
+
+    assert result.report is None
+    assert "Metrics unavailable" in result.markdown
+
+
 def test_all_implausible_picks_keep_the_text_but_show_no_metrics():
     crew_output = SimpleNamespace(
         pydantic=make_analyst_report([make_pick("Per Sq Ft", 6_136, 30_000)]), raw="raw text"

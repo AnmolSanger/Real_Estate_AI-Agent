@@ -15,3 +15,5 @@ pytest.ini
 investment_report.txt
 Dockerfile
 docker-compose.yml
+evals
+.github

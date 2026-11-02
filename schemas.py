@@ -16,9 +16,11 @@ class FinancialAssumptions(BaseModel):
 
 
 class PropertyPick(BaseModel):
+    # No value limits on LLM output: a strict field fails parsing and loses the whole run.
+    # build_report checks the values instead, so one bad pick is dropped on its own.
     name: str
-    property_price: float = Field(gt=0)
-    monthly_rent: float = Field(gt=0)
+    property_price: float
+    monthly_rent: float
     currency: str = Field(description="ISO currency code, for example INR")
     source_url: str = Field(description="Web page the price or rent came from")
 
@@ -27,7 +29,7 @@ class AnalystReport(BaseModel):
     """What the LLM fills in. It has no fields for calculated metrics on purpose."""
 
     picks: list[PropertyPick] = Field(description="1 to 3 properties, best first")
-    risk_score: int = Field(ge=1, le=10, description="1 is lowest risk, 10 is highest")
+    risk_score: int = Field(description="1 is lowest risk, 10 is highest")
     pros: list[str]
     cons: list[str]
     markdown_summary: str

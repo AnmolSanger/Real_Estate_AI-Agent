@@ -4,7 +4,7 @@ from finance import DOWNSIDE_RATE_INCREASE_PCT, DOWNSIDE_RENT_DROP_PCT
 from schemas import AnalystReport
 
 # Raise this whenever a prompt changes, so each report can be traced to its prompts.
-PROMPT_VERSION = "3"
+PROMPT_VERSION = "5"
 
 
 def create_research_task(location, property_type, agent):
@@ -28,6 +28,9 @@ def create_research_task(location, property_type, agent):
            - Find the total asking price of one whole unit and the monthly rent of a similar unit
            - The price must be the full purchase price, never a price per sq ft or per sq m
            - Record the currency and the source URL
+           - Take prices and rents only from property portals, developers, agencies or news sites
+           - Never use social media or video links (Instagram, YouTube, Facebook, X, TikTok, Reddit)
+             as the source of a price or rent. Search again for a better source instead
            - If you cannot find a real figure, write "unknown". Never invent one
            - Do not calculate ROI, Cap Rate or any other metric
 
@@ -59,7 +62,8 @@ def create_modeling_task(assumptions, agent, research_task):
         - Operating expenses: {assumptions.operating_expense_pct}% of rent
 
         Steps:
-        1. Drop any candidate whose price or rent is unknown, or whose price is per sq ft or per sq m
+        1. Drop any candidate whose price or rent is unknown, whose price is per sq ft or per sq m,
+           or whose source is a social media or video link
         2. Run the Real Estate ROI Calculator once for each remaining candidate
         3. Drop any candidate the tool rejects, and record why
         4. Run it once more for the best candidate as a downside case, with the rent
@@ -88,6 +92,7 @@ def create_analysis_task(location, property_type, agent, research_task, modeling
 
         Rules:
         - Only recommend or list candidates that remain in the financial model, never dropped ones
+        - If no candidates remain, leave picks empty and explain why in markdown_summary. Never use 0 as a price or rent
         - Base the verdict on the financial model, including the downside case
         - Do not write any NOI, Cap Rate, EMI, cash flow, ROI or Cash-on-Cash figures in markdown_summary.
           You may say whether a result is positive or negative. A verified metrics table is added after your text

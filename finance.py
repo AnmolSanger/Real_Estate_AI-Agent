@@ -16,6 +16,8 @@ def gross_yield_pct(property_price, monthly_rent):
 
 def is_plausible_deal(property_price, monthly_rent):
     """Sanity-check LLM-sourced inputs, because correct math on bad inputs is still wrong."""
+    if property_price <= 0 or monthly_rent <= 0:
+        return False
     return MIN_GROSS_YIELD_PCT <= gross_yield_pct(property_price, monthly_rent) <= MAX_GROSS_YIELD_PCT
 
 
