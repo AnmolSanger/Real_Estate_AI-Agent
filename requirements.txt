@@ -2,5 +2,7 @@ crewai[google-genai]==1.15.17
 crewai-tools==1.15.17
 mcp==1.28.1
 boto3==1.43.123
+fastapi==0.141.1
+uvicorn==0.54.0
 python-dotenv==1.2.3
 streamlit==1.66.1

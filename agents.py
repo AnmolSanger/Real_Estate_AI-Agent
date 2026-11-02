@@ -10,6 +10,9 @@ LLM_RETRIES = types.HttpOptions(
     retry_options=types.HttpRetryOptions(attempts=6, initial_delay=5, max_delay=60),
 )
 
+# Stops a stuck agent from running forever. Long enough for slow retries.
+MAX_AGENT_SECONDS = 300
+
 
 def create_llm():
     return LLM(
@@ -39,6 +42,7 @@ def create_property_researcher(llm):
         allow_delegation=False,
         tools=[create_search_tool()],
         max_iter=8,
+        max_execution_time=MAX_AGENT_SECONDS,
         verbose=True,
     )
 
@@ -55,6 +59,7 @@ def create_financial_modeler(llm):
         allow_delegation=False,
         tools=[roi_calculator],
         max_iter=6,
+        max_execution_time=MAX_AGENT_SECONDS,
         verbose=True,
     )
 
@@ -85,5 +90,7 @@ def create_property_analyst(llm):
             property investments. Your analytical approach combines traditional property metrics with modern market dynamics,
             ensuring reports are both comprehensive and forward-looking.""",
         allow_delegation=False,
+        max_iter=5,
+        max_execution_time=MAX_AGENT_SECONDS,
         verbose=True,
     )

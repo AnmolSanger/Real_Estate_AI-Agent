@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
 from telemetry import RunTelemetry
@@ -67,3 +69,19 @@ class AnalysisResult(BaseModel):
     report: InvestmentReportSchema | None = None
     telemetry: RunTelemetry | None = None
     artifacts: dict[str, str] = Field(default_factory=dict)
+
+
+class AnalyzeRequest(BaseModel):
+    # Location goes straight into the prompts, so limit it to what a place name needs.
+    location: str = Field(
+        min_length=2, max_length=100, pattern=r"^[^\W\d_][^\W_]*([ ,.'-]+[^\W_]+)*\.?$"
+    )
+    property_type: Literal["Residential", "Commercial", "Retail", "Industrial", "Mixed-Use"]
+    assumptions: FinancialAssumptions = Field(default_factory=FinancialAssumptions)
+
+
+class Job(BaseModel):
+    job_id: str
+    status: Literal["queued", "running", "succeeded", "failed"] = "queued"
+    result: AnalysisResult | None = None
+    error: str | None = None
