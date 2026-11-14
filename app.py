@@ -88,69 +88,83 @@ if submitted:
 
             status.update(label="✅ Analysis complete!", state="complete", expanded=False)
 
-        st.subheader(f"📋 Investment Report — {property_type} in {city}, {state}")
+        # Streamlit reruns the whole script on every click, so keep the finished
+        # report in session state to draw it again on later reruns.
+        st.session_state.last_run = {
+            "result": result,
+            "title": f"{property_type} in {city}, {state}",
+            "file_name": f"investment_report_{city.lower().replace(' ', '_')}.txt",
+        }
 
-        if result.report:
-            report = result.report
-            top_pick = report.picks[0]
+last_run = st.session_state.get("last_run")
+if last_run:
+    result = last_run["result"]
 
-            st.caption(f"Top pick: {top_pick.name}")
-            if report.rejected_picks:
-                st.warning(f"Excluded for implausible price and rent data: {', '.join(report.rejected_picks)}")
+    st.subheader(f"📋 Investment Report — {last_run['title']}")
 
-            roi_col, cap_col, risk_col, emi_col = st.columns(4)
-            roi_col.metric("ROI (Cash-on-Cash)", f"{report.roi_pct:.2f}%")
-            cap_col.metric("Cap Rate", f"{report.cap_rate_pct:.2f}%")
-            risk_col.metric("Risk Score", f"{report.risk_score}/10")
-            emi_col.metric(f"Monthly EMI ({top_pick.currency})", f"{top_pick.metrics.monthly_emi:,.0f}")
+    if result.report:
+        report = result.report
+        top_pick = report.picks[0]
 
-            st.caption(
-                f"Downside (lower rent, higher interest): ROI {report.downside.cash_on_cash_return_pct:.2f}%, "
-                f"Cap Rate {report.downside.cap_rate_pct:.2f}%"
-            )
+        st.caption(f"Top pick: {top_pick.name}")
+        if report.rejected_picks:
+            st.warning(f"Excluded for implausible price and rent data: {', '.join(report.rejected_picks)}")
 
-            pros_col, cons_col = st.columns(2)
-            with pros_col:
-                st.markdown("**✅ Key Pros**")
-                st.markdown("\n".join(f"- {pro}" for pro in report.pros))
-            with cons_col:
-                st.markdown("**⚠️ Key Cons**")
-                st.markdown("\n".join(f"- {con}" for con in report.cons))
+        roi_col, cap_col, risk_col, emi_col = st.columns(4)
+        roi_col.metric("ROI (Cash-on-Cash)", f"{report.roi_pct:.2f}%")
+        cap_col.metric("Cap Rate", f"{report.cap_rate_pct:.2f}%")
+        risk_col.metric("Risk Score", f"{report.risk_score}/10")
+        emi_col.metric(f"Monthly EMI ({top_pick.currency})", f"{top_pick.metrics.monthly_emi:,.0f}")
 
-            st.divider()
-        else:
-            st.warning("Metric cards are unavailable for this run, so the raw report is shown below.")
-
-        st.markdown(result.markdown)
-
-        st.download_button(
-            label="📥 Download Report",
-            data=result.markdown,
-            file_name=f"investment_report_{city.lower().replace(' ', '_')}.txt",
-            mime="text/plain",
+        st.caption(
+            f"Downside (lower rent, higher interest): ROI {report.downside.cash_on_cash_return_pct:.2f}%, "
+            f"Cap Rate {report.downside.cap_rate_pct:.2f}%"
         )
 
-        if result.telemetry:
-            telemetry = result.telemetry
+        pros_col, cons_col = st.columns(2)
+        with pros_col:
+            st.markdown("**✅ Key Pros**")
+            st.markdown("\n".join(f"- {pro}" for pro in report.pros))
+        with cons_col:
+            st.markdown("**⚠️ Key Cons**")
+            st.markdown("\n".join(f"- {con}" for con in report.cons))
 
-            with st.expander("📈 MLOps Pipeline Telemetry"):
-                latency_col, tokens_col, requests_col, cost_col = st.columns(4)
-                latency_col.metric("Latency", f"{telemetry.latency_seconds:.1f}s")
-                tokens_col.metric("Tokens", f"{telemetry.total_tokens:,}")
-                requests_col.metric("LLM Requests", telemetry.llm_requests)
-                cost = telemetry.estimated_cost_usd
-                cost_col.metric("Est. Paid Cost", "n/a" if cost is None else f"${cost:.4f}")
+        st.divider()
+    else:
+        st.warning("Metric cards are unavailable for this run, so the raw report is shown below.")
 
-                st.markdown("**Agent steps completed**")
-                for step in telemetry.steps:
-                    st.markdown(f"- {step.agent} ({step.finished_after_seconds:.1f}s)")
+    st.markdown(result.markdown)
 
-                st.markdown("**Run details**")
-                st.caption(
-                    f"Run {telemetry.run_id} · Model {telemetry.model} · "
-                    f"Prompt v{telemetry.prompt_version} · Code {telemetry.git_sha}"
-                )
+    st.download_button(
+        label="📥 Download Report",
+        data=result.markdown,
+        file_name=last_run["file_name"],
+        mime="text/plain",
+        # Downloading must not rerun the app.
+        on_click="ignore",
+    )
 
-                st.markdown("**Saved artifacts**")
-                for location_saved in result.artifacts.values():
-                    st.code(location_saved, language=None)
+    if result.telemetry:
+        telemetry = result.telemetry
+
+        with st.expander("📈 MLOps Pipeline Telemetry"):
+            latency_col, tokens_col, requests_col, cost_col = st.columns(4)
+            latency_col.metric("Latency", f"{telemetry.latency_seconds:.1f}s")
+            tokens_col.metric("Tokens", f"{telemetry.total_tokens:,}")
+            requests_col.metric("LLM Requests", telemetry.llm_requests)
+            cost = telemetry.estimated_cost_usd
+            cost_col.metric("Est. Paid Cost", "n/a" if cost is None else f"${cost:.4f}")
+
+            st.markdown("**Agent steps completed**")
+            for step in telemetry.steps:
+                st.markdown(f"- {step.agent} ({step.finished_after_seconds:.1f}s)")
+
+            st.markdown("**Run details**")
+            st.caption(
+                f"Run {telemetry.run_id} · Model {telemetry.model} · "
+                f"Prompt v{telemetry.prompt_version} · Code {telemetry.git_sha}"
+            )
+
+            st.markdown("**Saved artifacts**")
+            for location_saved in result.artifacts.values():
+                st.code(location_saved, language=None)
