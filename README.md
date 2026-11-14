@@ -94,7 +94,20 @@ The table below comes from the earlier suite, which ran 6 reports including a mi
 - **Mixed-use failed in every version.** All its sources were commercial listings, because Indian property portals rarely list mixed-use. It was removed, leaving four types.
 - **v5 passed 3 of its 5 other runs.** An Industrial pick came from a commercial listing, and a Retail source URL had no category words.
 
-The check reads URL words only, so it can fail a correct listing whose URL gives no category. It will be scored on new runs from now on.
+The check reads URL words only, so it can fail a correct listing whose URL gives no category.
+
+### Latest run: four property types, prompt v5
+
+| Check | Result |
+|---|---|
+| Runs completed | 5/5 |
+| Valid structured output, finance tool used, numbers match, no LLM-written metrics, sections present, plausible inputs, reliable sources | 100% each |
+| Property type matches | 80% |
+| Rent spread (limit 25%) | 25.0%, exactly on the limit |
+
+- **Property type:** the Chennai industrial run used a commercial listing again, the same failure as in v5.
+- **Rent spread:** Baner came back at ₹32,000 and ₹40,000 a month in the two Pune runs. It only just meets the limit, so stability is still not solved.
+- **Weak industrial inputs:** two Chennai picks earned yearly rent of about 1.2% of their price, close to the plausibility floor, and one was a land listing rather than a building.
 
 ## Known limitations
 
