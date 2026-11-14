@@ -128,7 +128,7 @@ Each area used to rely on one sale listing and one rent listing, often for diffe
 
 ## Known limitations
 
-- **Inputs are not stable.** The same property's rent can differ a lot between runs, because each run samples different listings. The next fix is to average several listings per area.
+- **Inputs are only partly stable.** Averaging 2-3 listings per area cut the rent spread between runs from 25% to 17.9%, but listings within one area still vary a lot, and results come from a single pair of runs.
 - **A property's type is not verified.** The type guides the agents' search, and the eval checks source URLs, but nothing confirms that a listing is really that type.
 - **Correct math does not make inputs true.** A plausible but wrong price still passes. Figures come from web listings and are not verified against market data.
 - **The eval sample is small.** Six runs per version catch failures, but do not prove statistical confidence.
