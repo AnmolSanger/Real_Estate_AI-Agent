@@ -41,7 +41,7 @@ def create_property_researcher(llm):
             and qualitative factors (neighborhood dynamics, market trends, future development plans).""",
         allow_delegation=False,
         tools=[create_search_tool()],
-        max_iter=8,
+        max_iter=12,
         max_execution_time=MAX_AGENT_SECONDS,
         verbose=True,
     )

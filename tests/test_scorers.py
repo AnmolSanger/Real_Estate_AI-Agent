@@ -23,7 +23,7 @@ def make_result(modeler_tool_calls=3, summary=GOOD_SUMMARY, picks=None):
         SimpleNamespace(pydantic=analyst_report, raw="raw"), FinancialAssumptions()
     )
     for number, pick in enumerate(result.report.picks):
-        pick.source_url = f"https://www.99acres.com/2-bhk-flats-in-area-{number}-pune-ffid"
+        pick.source_urls = [f"https://www.99acres.com/2-bhk-flats-in-area-{number}-pune-ffid"] * 4
     result.telemetry = RunTelemetry(
         location="Pune",
         property_type="Residential",
@@ -105,7 +105,7 @@ def test_missing_section_fails():
 
 def test_social_media_source_fails():
     result = make_result()
-    result.report.picks[1].source_url = "https://www.instagram.com/reel/abc/"
+    result.report.picks[1].source_urls[2] = "https://www.instagram.com/reel/abc/"
 
     assert not scorers.reliable_sources(result)
 
@@ -145,7 +145,7 @@ def test_source_not_matching_the_type_fails(url, property_type):
 
 def test_one_wrong_type_fails_the_run():
     result = make_result()
-    result.report.picks[1].source_url = "https://www.magicbricks.com/office-space-for-sale"
+    result.report.picks[1].source_urls[3] = "https://www.magicbricks.com/office-space-for-sale"
 
     assert not scorers.property_type_matches(result)
 
@@ -161,3 +161,23 @@ def test_rent_spread_is_none_without_repeated_properties():
     only = make_result(picks=[make_pick("Baner", 5_000_000, 20_000)])
 
     assert scorers.rent_spread_pct([only]) is None
+
+
+def test_a_single_listing_fails_the_multiple_listings_check():
+    result = make_result(picks=[make_pick("Baner", 12_000_000, [30_000, 32_000])])
+    assert scorers.multiple_listings(result) is False
+
+    result = make_result(picks=[make_pick("Baner", [11_000_000, 13_000_000], [30_000, 32_000])])
+    assert scorers.multiple_listings(result) is True
+
+
+def test_averages_that_do_not_match_the_samples_fail():
+    result = make_result()
+    result.report.picks[0].monthly_rent = 99_000
+
+    assert not scorers.numbers_match_engine(result)
+
+
+def test_flat_size_joined_to_a_number_still_matches():
+    # Seen in evals: housing.com writes "2bhk" with no separator.
+    assert scorers.source_matches_type("https://housing.com/in/buy/pune/hinjawadi-gid/2bhk-fid/", "Residential")

@@ -12,6 +12,7 @@ from agents import (
 from finance import (
     DOWNSIDE_RATE_INCREASE_PCT,
     DOWNSIDE_RENT_DROP_PCT,
+    average,
     calculate_metrics,
     is_plausible_deal,
 )
@@ -35,10 +36,20 @@ from telemetry import RunTelemetry
 MAX_REQUESTS_PER_MINUTE = 4
 
 
+def averaged_inputs(pick):
+    return average(pick.price_samples), average(pick.rent_samples)
+
+
 def score_pick(pick, assumptions):
-    """Compute one property's metrics in Python, whatever the LLM wrote elsewhere."""
-    metrics = calculate_metrics(pick.property_price, pick.monthly_rent, **assumptions.model_dump())
-    return ScoredPick(**pick.model_dump(), metrics=PropertyMetrics(**metrics))
+    """Average the samples and compute one property's metrics in Python, whatever the LLM wrote elsewhere."""
+    price, rent = averaged_inputs(pick)
+    metrics = calculate_metrics(price, rent, **assumptions.model_dump())
+    return ScoredPick(
+        **pick.model_dump(),
+        property_price=price,
+        monthly_rent=rent,
+        metrics=PropertyMetrics(**metrics),
+    )
 
 
 def downside_metrics(pick, assumptions):
@@ -52,7 +63,7 @@ def downside_metrics(pick, assumptions):
 
 def build_report(analyst_report, assumptions):
     """Combine the LLM's judgment with Python-computed metrics."""
-    usable = [p for p in analyst_report.picks if is_plausible_deal(p.property_price, p.monthly_rent)]
+    usable = [p for p in analyst_report.picks if is_plausible_deal(*averaged_inputs(p))]
     rejected = [p.name for p in analyst_report.picks if p not in usable]
 
     if not usable:
@@ -81,20 +92,27 @@ def render_metrics_table(report):
     lines = [
         "## Verified Financial Metrics",
         "",
-        "Calculated by the EstateMind finance engine, not by the LLM.",
+        "Calculated by the EstateMind finance engine, not by the LLM. Price and rent are averages of the listings found.",
         "",
-        "| Property | Price | Monthly rent | NOI | Cap Rate | Monthly EMI | Annual cash flow | Cash-on-Cash |",
-        "|---|---|---|---|---|---|---|---|",
+        "| Property | Unit | Avg price | Avg monthly rent | Listings (sale / rent) | NOI | Cap Rate | Monthly EMI | Annual cash flow | Cash-on-Cash |",
+        "|---|---|---|---|---|---|---|---|---|---|",
     ]
 
     for pick in report.picks:
         metrics = pick.metrics
+        sale_count = sum(price > 0 for price in pick.price_samples)
+        rent_count = sum(rent > 0 for rent in pick.rent_samples)
         lines.append(
-            f"| [{pick.name}]({pick.source_url}) | {pick.currency} {pick.property_price:,.0f} "
-            f"| {pick.monthly_rent:,.0f} | {metrics.net_operating_income:,.0f} "
+            f"| {pick.name} | {pick.unit_description} | {pick.currency} {pick.property_price:,.0f} "
+            f"| {pick.monthly_rent:,.0f} | {sale_count} / {rent_count} | {metrics.net_operating_income:,.0f} "
             f"| {metrics.cap_rate_pct:.2f}% | {metrics.monthly_emi:,.0f} "
             f"| {metrics.annual_cash_flow:,.0f} | {metrics.cash_on_cash_return_pct:.2f}% |"
         )
+
+    lines += ["", "Sources:"]
+    for pick in report.picks:
+        links = " ".join(f"[{number}]({url})" for number, url in enumerate(pick.source_urls, start=1))
+        lines.append(f"- {pick.name}: {links}")
 
     lines += [
         "",

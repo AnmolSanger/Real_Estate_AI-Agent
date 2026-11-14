@@ -24,10 +24,13 @@ class PropertyPick(BaseModel):
     # No value limits on LLM output: a strict field fails parsing and loses the whole run.
     # build_report checks the values instead, so one bad pick is dropped on its own.
     name: str
-    property_price: float
-    monthly_rent: float
+    unit_description: str = Field(
+        description="The one kind of unit every sample describes, for example 2 BHK flat, about 1,000 sq ft"
+    )
+    price_samples: list[float] = Field(description="2-3 full asking prices for that kind of unit")
+    rent_samples: list[float] = Field(description="2-3 monthly rents for that kind of unit")
     currency: str = Field(description="ISO currency code, for example INR")
-    source_url: str = Field(description="Web page the price or rent came from")
+    source_urls: list[str] = Field(description="The web page for each price and rent sample")
 
 
 class AnalystReport(BaseModel):
@@ -49,6 +52,9 @@ class PropertyMetrics(BaseModel):
 
 
 class ScoredPick(PropertyPick):
+    # Averages of the samples, calculated in Python rather than by the LLM.
+    property_price: float
+    monthly_rent: float
     metrics: PropertyMetrics
 
 

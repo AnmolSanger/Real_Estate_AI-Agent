@@ -10,6 +10,15 @@ DOWNSIDE_RENT_DROP_PCT = 10
 DOWNSIDE_RATE_INCREASE_PCT = 1
 
 
+def average(values):
+    """Mean of the positive samples, or 0 if there are none, which the plausibility check rejects.
+
+    Averaging several listings means one unusual listing moves the result less.
+    """
+    positive = [value for value in values if value > 0]
+    return sum(positive) / len(positive) if positive else 0
+
+
 def gross_yield_pct(property_price, monthly_rent):
     return monthly_rent * 12 / property_price * 100
 

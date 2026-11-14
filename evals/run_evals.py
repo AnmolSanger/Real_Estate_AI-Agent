@@ -57,9 +57,12 @@ def main():
                 "picks": [
                     {
                         "name": pick.name,
+                        "unit": pick.unit_description,
                         "price": pick.property_price,
                         "rent": pick.monthly_rent,
-                        "source": pick.source_url,
+                        "price_samples": pick.price_samples,
+                        "rent_samples": pick.rent_samples,
+                        "sources": pick.source_urls,
                     }
                     for pick in (result.report.picks if result and result.report else [])
                 ],

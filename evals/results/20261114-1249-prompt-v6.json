@@ -1,0 +1,375 @@
+{
+  "prompt_version": "6",
+  "finished_at": "2026-11-14T12:49:41.829241+00:00",
+  "runs_completed": 5,
+  "runs_total": 5,
+  "pass_rates": {
+    "schema_valid": 100,
+    "finance_tool_used": 100,
+    "numbers_match_engine": 100,
+    "multiple_listings": 80,
+    "no_metrics_in_text": 100,
+    "sections_present": 100,
+    "plausible_inputs": 100,
+    "reliable_sources": 100,
+    "property_type_matches": 60
+  },
+  "rent_spread_pct": 17.9,
+  "max_rent_spread_pct": 25,
+  "runs": [
+    {
+      "location": "Pune, Maharashtra",
+      "property_type": "Residential",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "multiple_listings": false,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true,
+        "property_type_matches": false
+      },
+      "error": null,
+      "latency_seconds": 84.39,
+      "total_tokens": 99030,
+      "picks": [
+        {
+          "name": "Hinjewadi",
+          "unit": "2 BHK flat, approx. 1,000 sq ft.",
+          "price": 8550000.0,
+          "rent": 28250.0,
+          "price_samples": [
+            11000000.0,
+            6100000.0
+          ],
+          "rent_samples": [
+            35000.0,
+            21500.0
+          ],
+          "sources": [
+            "https://housing.com/in/buy/pune/hinjawadi-gid/2bhk-fid/",
+            "https://www.magicbricks.com/2-bhk-flats-in-hinjewadi-pune-for-sale-price-60-lakhs-to-70-lakhs-pppfs",
+            "https://www.olx.in/hinjewadi_g5325400/q-2-bhk-flat-for-rent",
+            "https://www.nobroker.in/2bhk-flats-for-rent-in-hinjewadi_phase_1_road_pune"
+          ]
+        },
+        {
+          "name": "Kharadi",
+          "unit": "2 BHK flat, approx. 1,000 sq ft.",
+          "price": 11566666.666666666,
+          "rent": 31666.666666666668,
+          "price_samples": [
+            12900000.0,
+            11500000.0,
+            10300000.0
+          ],
+          "rent_samples": [
+            40000.0,
+            35000.0,
+            20000.0
+          ],
+          "sources": [
+            "https://housing.com/in/buy/pune/kharadi-gid/2bhk-flats-fid/",
+            "https://www.99acres.com/resale-2-bhk-flats-in-kharadi-pune-ffid",
+            "https://www.magicbricks.com/flats-in-kharadi-pune-under-1-crore-pppfs",
+            "https://www.magicbricks.com/2-bhk-flats-for-rent-in-kharadi-pune-pppfr",
+            "https://housing.com/rent/2bhk-flats-for-rent-in-kharadi-pune-C4P1pu1fhmtcb6ffmti",
+            "https://www.nobroker.in/2bhk-flats-for-rent-in-kharadi_pune"
+          ]
+        },
+        {
+          "name": "Baner",
+          "unit": "2 BHK flat, approx. 1,000 sq ft.",
+          "price": 14500000.0,
+          "rent": 28000.0,
+          "price_samples": [
+            18000000.0,
+            11000000.0
+          ],
+          "rent_samples": [
+            28000.0
+          ],
+          "sources": [
+            "https://www.99acres.com/property-in-baner-pune-900-sq-ft-to-1000-sq-ft-ffid",
+            "https://www.magicbricks.com/2-bhk-flats-in-baner-pune-for-sale-pppfs",
+            "https://www.olx.in/baner_g5325416/rent-apartments_c1723"
+          ]
+        }
+      ]
+    },
+    {
+      "location": "Bengaluru, Karnataka",
+      "property_type": "Commercial",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "multiple_listings": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true,
+        "property_type_matches": true
+      },
+      "error": null,
+      "latency_seconds": 141.79,
+      "total_tokens": 69735,
+      "picks": [
+        {
+          "name": "Location B - Outer Ring Road (ORR)",
+          "unit": "Office Space, ~2,000 sq ft",
+          "price": 37500000.0,
+          "rent": 220000.0,
+          "price_samples": [
+            50000000.0,
+            25000000.0
+          ],
+          "rent_samples": [
+            140000.0,
+            300000.0
+          ],
+          "sources": [
+            "https://www.99acres.com/commercial-office-space-in-outer-ring-road-east-bangalore-east-ffid",
+            "https://www.99acres.com/commercial-office-space-in-outer-ring-road-east-bangalore-east-ffid",
+            "https://loginrealty.com/office-space-for-rent-in-outer-ring-road",
+            "https://loginrealty.com/office-space-for-rent-in-outer-ring-road"
+          ]
+        },
+        {
+          "name": "Location C - Electronic City",
+          "unit": "Office Space, ~2,000 sq ft",
+          "price": 31500000.0,
+          "rent": 100000.0,
+          "price_samples": [
+            33000000.0,
+            30000000.0
+          ],
+          "rent_samples": [
+            80000.0,
+            120000.0
+          ],
+          "sources": [
+            "https://www.magicbricks.com/commercial-property-for-sale-in-electronic-city-bangalore-pppfs",
+            "https://www.squareyards.com/sale/office-spaces-for-sale-in-electronic-city-phase-i-bangalore",
+            "https://myhq.in/bangalore/office-space-for-rent/electronic-city",
+            "https://property.jll.co.in/rent-office/bengaluru/electronic-city"
+          ]
+        }
+      ]
+    },
+    {
+      "location": "Mumbai, Maharashtra",
+      "property_type": "Retail",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "multiple_listings": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true,
+        "property_type_matches": true
+      },
+      "error": null,
+      "latency_seconds": 80.2,
+      "total_tokens": 81708,
+      "picks": [
+        {
+          "name": "Lower Parel",
+          "unit": "Commercial Retail Shop (approx. 300\u2013500 sq. ft.)",
+          "price": 18000000.0,
+          "rent": 142500.0,
+          "price_samples": [
+            11000000.0,
+            25000000.0
+          ],
+          "rent_samples": [
+            110000.0,
+            175000.0
+          ],
+          "sources": [
+            "https://www.99acres.com/commercial-shops-in-lower-parel-south-mumbai-ffid",
+            "https://housing.com/commercial/buy/commercial-shop-for-sale-in-lower-parel-mumbai-MA4P5knauozgl3i8gcu2",
+            "https://www.squareyards.com/rent/shops-for-rent-in-lower-parel-mumbai"
+          ]
+        },
+        {
+          "name": "Thane West",
+          "unit": "Commercial Retail Shop (approx. 300\u2013500 sq. ft.)",
+          "price": 14950000.0,
+          "rent": 75000.0,
+          "price_samples": [
+            9900000.0,
+            20000000.0
+          ],
+          "rent_samples": [
+            50000.0,
+            100000.0
+          ],
+          "sources": [
+            "https://www.squareyards.com/sale/shops-for-sale-in-thane",
+            "https://housing.com/commercial/rent/commercial-shop-for-rent-in-thane-west-thane-MA4P6p1rr117q8jatvjh",
+            "https://www.99acres.com/commercial-shops-for-rent-in-thane-west-mumbai-15-thousand-to-20-thousand-ffid"
+          ]
+        }
+      ]
+    },
+    {
+      "location": "Chennai, Tamil Nadu",
+      "property_type": "Industrial",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "multiple_listings": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true,
+        "property_type_matches": true
+      },
+      "error": null,
+      "latency_seconds": 94.31,
+      "total_tokens": 91761,
+      "picks": [
+        {
+          "name": "Sriperumbudur",
+          "unit": "Warehouse/Industrial Shed, approximately 10,000 sq ft.",
+          "price": 31250000.0,
+          "rent": 250000.0,
+          "price_samples": [
+            15000000.0,
+            47500000.0
+          ],
+          "rent_samples": [
+            250000.0,
+            250000.0
+          ],
+          "sources": [
+            "https://www.99acres.com/warehouse-in-sriperumbudur-chennai-west-ffid",
+            "http://www.nanubhaiproperty.com/property-details/35000-sq-ft-warehouse-godown-for-sale-sriperumbudur-in-chennai?pid=BqpNxlw1+jf/mYBmvf9CmA==",
+            "https://www.99acres.com/warehouse-for-rent-in-sriperumbudur-chennai-west-ffid",
+            "https://www.magicbricks.com/warehouse-godown-for-rent-in-sriperumbudur-chennai-pppfr"
+          ]
+        },
+        {
+          "name": "Oragadam",
+          "unit": "Warehouse/Industrial Shed, approximately 10,000 sq ft.",
+          "price": 61650000.0,
+          "rent": 300000.0,
+          "price_samples": [
+            40000000.0,
+            83300000.0
+          ],
+          "rent_samples": [
+            200000.0,
+            400000.0
+          ],
+          "sources": [
+            "https://www.olx.in/oragadam-industrial-area_g4401951/properties_c3/q-warehouses",
+            "http://www.nanubhaiproperty.com/property-details/25000-sq-ft-warehouse-godown-for-sale-oragadam-in-chennai?pid=QEqsw7o082j/mYBmvf9CmA==",
+            "https://www.justdial.com/Chennai/Warehouses-On-Rent-in-Oragadam/nct-10526431",
+            "https://www.olx.in/oragadam-industrial-area_g4401951/properties_c3/q-warehouses"
+          ]
+        },
+        {
+          "name": "Ambattur",
+          "unit": "Warehouse/Industrial Shed, approximately 10,000 sq ft.",
+          "price": 187500000.0,
+          "rent": 235000.0,
+          "price_samples": [
+            150000000.0,
+            225000000.0
+          ],
+          "rent_samples": [
+            120000.0,
+            350000.0
+          ],
+          "sources": [
+            "https://housing.com/commercial/buy/resale/100607558-warehouse-for-sale-in-ambattur-industrial-estate-chennai-for-rs-150000000",
+            "https://property.sulekha.com/commercial-property-for-sale/ambattur-industrial-estate-chennai",
+            "https://property.sulekha.com/commercial-warehouse-godown-for-rent/ambattur-industrial-estate-chennai",
+            "https://propertywala.com/properties/type-commercial/for-rent/location-ambattur_industrial_estate_chennai"
+          ]
+        }
+      ]
+    },
+    {
+      "location": "Pune, Maharashtra",
+      "property_type": "Residential",
+      "scores": {
+        "schema_valid": true,
+        "finance_tool_used": true,
+        "numbers_match_engine": true,
+        "multiple_listings": true,
+        "no_metrics_in_text": true,
+        "sections_present": true,
+        "plausible_inputs": true,
+        "reliable_sources": true,
+        "property_type_matches": false
+      },
+      "error": null,
+      "latency_seconds": 82.72,
+      "total_tokens": 84462,
+      "picks": [
+        {
+          "name": "Kharadi",
+          "unit": "2 BHK Flat",
+          "price": 10900000.0,
+          "rent": 32000.0,
+          "price_samples": [
+            10300000.0,
+            11500000.0
+          ],
+          "rent_samples": [
+            20000.0,
+            44000.0
+          ],
+          "sources": [
+            "https://www.magicbricks.com/flats-in-kharadi-pune-under-1-crore-pppfs",
+            "https://www.nestaway.com/pune/2-bhk-flat-house-for-rent-in-kharadi"
+          ]
+        },
+        {
+          "name": "Hinjewadi",
+          "unit": "2 BHK Flat",
+          "price": 9909500.0,
+          "rent": 28250.0,
+          "price_samples": [
+            8819000.0,
+            11000000.0
+          ],
+          "rent_samples": [
+            21500.0,
+            35000.0
+          ],
+          "sources": [
+            "https://housing.com/in/buy/pune/hinjawadi-gid/2bhk-fid/",
+            "https://www.nobroker.in/2bhk-flats-for-rent-in-hinjewadi_phase_1_road_pune"
+          ]
+        },
+        {
+          "name": "Baner",
+          "unit": "2 BHK Flat",
+          "price": 11750000.0,
+          "rent": 33000.0,
+          "price_samples": [
+            11000000.0,
+            12500000.0
+          ],
+          "rent_samples": [
+            31000.0,
+            35000.0
+          ],
+          "sources": [
+            "https://www.magicbricks.com/2-bhk-flats-in-baner-pune-for-sale-pppfs",
+            "https://www.99acres.com/2-bhk-flats-for-rent-in-baner-pune-ffid"
+          ]
+        }
+      ]
+    }
+  ]
+}

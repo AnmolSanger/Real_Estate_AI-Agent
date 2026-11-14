@@ -3,7 +3,7 @@
 import re
 from urllib.parse import urlparse
 
-from finance import calculate_metrics, is_plausible_deal
+from finance import average, calculate_metrics, is_plausible_deal
 
 REQUIRED_SECTIONS = [
     "Executive Summary",
@@ -54,8 +54,19 @@ def numbers_match_engine(result):
         return False
     assumptions = result.report.assumptions.model_dump()
     return all(
-        pick.metrics.model_dump()
+        pick.property_price == average(pick.price_samples)
+        and pick.monthly_rent == average(pick.rent_samples)
+        and pick.metrics.model_dump()
         == calculate_metrics(pick.property_price, pick.monthly_rent, **assumptions)
+        for pick in result.report.picks
+    )
+
+
+def multiple_listings(result):
+    """Each pick averages at least 2 sale listings and 2 rent listings."""
+    return bool(result.report) and all(
+        sum(price > 0 for price in pick.price_samples) >= 2
+        and sum(rent > 0 for rent in pick.rent_samples) >= 2
         for pick in result.report.picks
     )
 
@@ -86,7 +97,8 @@ def is_reliable_source(url):
 
 def reliable_sources(result):
     return bool(result.report) and all(
-        is_reliable_source(pick.source_url) for pick in result.report.picks
+        pick.source_urls and all(is_reliable_source(url) for url in pick.source_urls)
+        for pick in result.report.picks
     )
 
 
@@ -96,7 +108,8 @@ def source_matches_type(url, property_type):
     A proxy, not a real classification: a correct listing can still fail if its URL has no
     category words. Whole URL words are compared, so "warehouse" does not count as "house".
     """
-    words = re.split(r"[^a-z0-9]+", url.lower())
+    # Leading digits are dropped, so "2bhk" counts as "bhk".
+    words = [word.lstrip("0123456789") for word in re.split(r"[^a-z0-9]+", url.lower())]
     keywords = TYPE_KEYWORDS.get(property_type, ())
     return any(word.startswith(keyword) for word in words for keyword in keywords)
 
@@ -105,8 +118,9 @@ def property_type_matches(result):
     if not result.report or not result.telemetry:
         return False
     return all(
-        source_matches_type(pick.source_url, result.telemetry.property_type)
+        source_matches_type(url, result.telemetry.property_type)
         for pick in result.report.picks
+        for url in pick.source_urls
     )
 
 
@@ -114,6 +128,7 @@ SCORERS = {
     "schema_valid": schema_valid,
     "finance_tool_used": finance_tool_used,
     "numbers_match_engine": numbers_match_engine,
+    "multiple_listings": multiple_listings,
     "no_metrics_in_text": no_metrics_in_text,
     "sections_present": sections_present,
     "plausible_inputs": plausible_inputs,

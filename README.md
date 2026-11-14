@@ -109,6 +109,23 @@ The check reads URL words only, so it can fail a correct listing whose URL gives
 - **Rent spread:** Baner came back at ₹32,000 and ₹40,000 a month in the two Pune runs. It only just meets the limit, so stability is still not solved.
 - **Weak industrial inputs:** two Chennai picks earned yearly rent of about 1.2% of their price, close to the plausibility floor, and one was a land listing rather than a building.
 
+### Averaging listings: prompt v6
+
+Each area used to rely on one sale listing and one rent listing, often for different-sized properties. Now the agents choose one comparable kind of unit per area, such as "2 BHK flat, about 1,000 sq ft", and collect 2-3 prices and 2-3 rents for it. Python averages them, and the report shows how many listings went into each average, with a link to every source.
+
+| Check | v5 | v6 |
+|---|---|---|
+| Rent spread (limit 25%) | 25.0% | **17.9%** |
+| At least 2 sale and 2 rent listings per area | Not measured | 80% |
+| Property type matches | 80% | 80% |
+| The other seven checks | 100% | 100% |
+| Tokens per report | about 59k-76k | about 70k-99k |
+
+- **Industrial improved:** every Chennai source is now a warehouse or shed listing, with no commercial listings or land.
+- **A scorer bug was found:** the saved v6 file reports 60% for property type, because the check did not recognise `2bhk` in a URL. With the fix, the score is 80%. The one remaining failure is a URL with no category words.
+- **Listings in one area still vary a lot.** For example, Hinjewadi prices ranged from ₹61 lakh to ₹1.1 crore in one run, so the "comparable unit" rule is not always followed.
+- **Averaging costs more:** extra searches use about 15-30% more tokens per report.
+
 ## Known limitations
 
 - **Inputs are not stable.** The same property's rent can differ a lot between runs, because each run samples different listings. The next fix is to average several listings per area.

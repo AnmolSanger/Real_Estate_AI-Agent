@@ -7,23 +7,27 @@ from finance import calculate_metrics
 from schemas import AnalystReport, FinancialAssumptions, PropertyPick
 
 
+def make_pick(name, prices, rents):
+    """Build a pick from one value or a list of samples."""
+    prices = prices if isinstance(prices, list) else [prices]
+    rents = rents if isinstance(rents, list) else [rents]
+    return PropertyPick(
+        name=name,
+        unit_description="2 BHK flat, about 1,000 sq ft",
+        price_samples=prices,
+        rent_samples=rents,
+        currency="INR",
+        source_urls=[f"https://example.com/{name.lower().replace(' ', '-')}"] * (len(prices) + len(rents)),
+    )
+
+
 def make_analyst_report(picks=None):
     if picks is None:
         picks = [
-            PropertyPick(
-                name="Rajpur Road",
-                property_price=8_000_000,
-                monthly_rent=30_000,
-                currency="INR",
-                source_url="https://example.com/rajpur",
-            ),
-            PropertyPick(
-                name="Sahastradhara Road",
-                property_price=5_000_000,
-                monthly_rent=25_000,
-                currency="INR",
-                source_url="https://example.com/sahastradhara",
-            ),
+            # Averages to 80,00,000 and 30,000.
+            make_pick("Rajpur Road", [7_500_000, 8_500_000], [28_000, 32_000]),
+            # Averages to 50,00,000 and 25,000.
+            make_pick("Sahastradhara Road", [4_800_000, 5_200_000], [24_000, 26_000]),
         ]
     return AnalystReport(
         picks=picks,
@@ -74,14 +78,38 @@ def test_downside_appears_in_the_report_text():
     assert "Downside for Rajpur Road" in result.markdown
 
 
-def make_pick(name, price, rent):
-    return PropertyPick(
-        name=name,
-        property_price=price,
-        monthly_rent=rent,
-        currency="INR",
-        source_url="https://example.com",
-    )
+def test_price_and_rent_are_averaged_in_python():
+    report = pipeline.build_report(make_analyst_report(), FinancialAssumptions())
+
+    assert report.picks[0].property_price == 8_000_000
+    assert report.picks[0].monthly_rent == 30_000
+
+
+def test_missing_samples_are_ignored_when_averaging():
+    picks = [make_pick("Gaps", [8_000_000, 0], [30_000, 0, 30_000])]
+
+    report = pipeline.build_report(make_analyst_report(picks), FinancialAssumptions())
+
+    assert report.picks[0].property_price == 8_000_000
+    assert report.picks[0].monthly_rent == 30_000
+
+
+def test_one_unusual_listing_moves_the_average_less_than_a_single_listing():
+    # A single 40,000 listing would overstate rent by a third. Averaged with two others, it adds 11%.
+    picks = [make_pick("Baner", 12_000_000, [30_000, 30_000, 40_000])]
+
+    report = pipeline.build_report(make_analyst_report(picks), FinancialAssumptions())
+
+    assert round(report.picks[0].monthly_rent) == 33_333
+
+
+def test_report_lists_every_source_and_listing_count():
+    crew_output = SimpleNamespace(pydantic=make_analyst_report(), raw="raw text")
+
+    result = pipeline.build_result(crew_output, FinancialAssumptions())
+
+    assert "| 2 / 2 |" in result.markdown
+    assert "- Rajpur Road: [1](https://example.com/rajpur-road)" in result.markdown
 
 
 def test_empty_picks_are_rejected():
