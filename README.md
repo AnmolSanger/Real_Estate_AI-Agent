@@ -32,11 +32,21 @@ CLI ──────────┘        │
 3. The **Analyst** writes the report. It may say a result is positive or negative, but it does not write calculated figures.
 4. **Python** computes the final metrics and appends them as a verified table.
 
+## Supported locations
+
+EstateMind accepts only **Indian cities with 1 lakh or more people**: 467 cities across 31 states and union territories. Users pick a state, then a city, and the agents receive both, such as "Pune, Maharashtra".
+
+- **Source:** "Urban Agglomerations/Cities having population 1 lakh and above", Provisional Population Totals, Census of India 2011. It is the latest official city-level data, because Census 2027 results are not yet published. The original censusindia.gov.in link is gone, so the list was built from an [archived copy](https://web.archive.org/web/20170101050957/http://www.censusindia.gov.in/2011-prov-results/paper2/data_files/India2/Table_3_PR_UA_Citiees_1Lakh_and_Above.pdf).
+- **Conversion:** [scripts/build_city_list.py](scripts/build_city_list.py) turns the PDF into [data/indian_cities.csv](data/indian_cities.csv). It merges urban areas with their main city, moves Telangana's cities out of Andhra Pradesh, and uses current names, such as Gurugram and Prayagraj. Each row keeps its original Census name.
+- **Not included:** Sikkim, Arunachal Pradesh, Ladakh, Lakshadweep, and Dadra and Nagar Haveli and Daman and Diu had no city of 1 lakh or more in 2011. Places the Census counted inside a larger urban area, like Thane within Mumbai, are not listed separately.
+
 ## Design decisions
 
 | Decision | Why |
 |---|---|
 | LLM picks inputs, Python does the math | LLMs make arithmetic mistakes. `finance.py` gives the same output for the same input every time |
+| Only listed Indian cities accepted | All evals ran on Indian markets with Indian loan defaults, and a fixed list keeps free text out of the prompts |
+| City list stored in the repo | It is small reference data the code depends on, so it is versioned with the code. Object storage is for run outputs |
 | One `pipeline.py` for every interface | Streamlit, the API and the CLI cannot drift apart |
 | Agents built per run | Concurrent runs share no state |
 | Loose parsing, then checks in Python | A strict schema rejected a whole run over one rent of 0. Now only the bad property is dropped |
@@ -83,7 +93,8 @@ CLI ──────────┘        │
 - **Correct math does not make inputs true.** A plausible but wrong price still passes. Figures come from web listings and are not verified against market data.
 - **The eval sample is small.** Six runs per version catch failures, but do not prove statistical confidence.
 - **Jobs live in memory.** A restart loses them, and only one server process is supported. Production would use a queue and a database.
-- **Prompt injection is reduced, not removed.** Locations are restricted and agents are told to ignore instructions in web pages.
+- **The city list is from 2011.** City sizes have changed, and smaller cities may have too few listings for a full report.
+- **Prompt injection is reduced, not removed.** Locations come from a fixed list and agents are told to ignore instructions in web pages.
 - **This is LLMOps, not classic MLOps.** There is no model training, registry or drift monitoring.
 
 ## Run it locally
@@ -122,7 +133,7 @@ This starts both apps from one image. Secrets stay out of the image and are pass
 Requests to `/analyze` and `/jobs` need an `X-API-Key` header.
 
 ```bash
-curl -X POST https://estatemind-api.onrender.com/analyze -H "X-API-Key: YOUR_KEY" -H "Content-Type: application/json" -d "{\"location\": \"Pune\", \"property_type\": \"Residential\"}"
+curl -X POST https://estatemind-api.onrender.com/analyze -H "X-API-Key: YOUR_KEY" -H "Content-Type: application/json" -d "{\"state\": \"Maharashtra\", \"city\": \"Pune\", \"property_type\": \"Residential\"}"
 ```
 
 | Endpoint | Purpose |
@@ -146,6 +157,9 @@ curl -X POST https://estatemind-api.onrender.com/analyze -H "X-API-Key: YOUR_KEY
 ├── api.py             # FastAPI service
 ├── crew.py            # Command line entry point
 ├── mcp_server.py      # MCP server for the finance engine
+├── cities.py          # Loads the supported Indian cities
+├── data/              # Census-based city list
+├── scripts/           # Builds the city list from the Census PDF
 ├── evals/             # Live evaluation suite and saved results
 ├── tests/             # Mocked test suite
 ├── docs/              # Sample report

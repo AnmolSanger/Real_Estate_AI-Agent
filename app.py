@@ -3,6 +3,7 @@ import secrets
 
 import streamlit as st
 
+from cities import INDIAN_CITIES, to_location
 from pipeline import run_analysis
 from schemas import FinancialAssumptions
 
@@ -38,8 +39,13 @@ st.divider()
 
 defaults = FinancialAssumptions()
 
+# Outside the form, because a form does not refresh the city list when the state changes.
+state_col, city_col = st.columns(2)
+state = state_col.selectbox("State", list(INDIAN_CITIES), index=list(INDIAN_CITIES).index("Maharashtra"))
+city = city_col.selectbox("City", INDIAN_CITIES[state])
+st.caption("Indian cities with 1 lakh or more people, from Census of India 2011.")
+
 with st.form("analysis_form"):
-    location = st.text_input("Location", placeholder="e.g., Mumbai, Berlin, New York")
     property_type = st.selectbox(
         "Property Type",
         ["Residential", "Commercial", "Retail", "Industrial", "Mixed-Use"],
@@ -59,9 +65,7 @@ with st.form("analysis_form"):
     submitted = st.form_submit_button("🚀 Analyze Properties", use_container_width=True)
 
 if submitted:
-    if not location:
-        st.error("Please enter a location.")
-    elif demo_password and not secrets.compare_digest(entered_password.encode(), demo_password.encode()):
+    if demo_password and not secrets.compare_digest(entered_password.encode(), demo_password.encode()):
         st.error("Incorrect demo password.")
     else:
         assumptions = FinancialAssumptions(
@@ -76,7 +80,7 @@ if submitted:
             st.write("🔍 Researcher, 🧮 Modeler and 📊 Analyst are running in order...")
             st.write("⏳ This usually takes several minutes on the free Gemini tier.")
             try:
-                result = run_analysis(location, property_type, assumptions)
+                result = run_analysis(to_location(state, city), property_type, assumptions)
             except Exception as error:
                 status.update(label="❌ Analysis failed", state="error")
                 st.error(f"The analysis could not finish. Please try again in a minute.\n\nDetails: {error}")
@@ -84,7 +88,7 @@ if submitted:
 
             status.update(label="✅ Analysis complete!", state="complete", expanded=False)
 
-        st.subheader(f"📋 Investment Report — {property_type.title()} in {location.title()}")
+        st.subheader(f"📋 Investment Report — {property_type} in {city}, {state}")
 
         if result.report:
             report = result.report
@@ -122,7 +126,7 @@ if submitted:
         st.download_button(
             label="📥 Download Report",
             data=result.markdown,
-            file_name=f"investment_report_{location.lower().replace(' ', '_')}.txt",
+            file_name=f"investment_report_{city.lower().replace(' ', '_')}.txt",
             mime="text/plain",
         )
 

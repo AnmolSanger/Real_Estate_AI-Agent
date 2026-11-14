@@ -11,11 +11,39 @@ from tests.test_pipeline import make_analyst_report
 APP_PATH = str(Path(__file__).parent.parent / "app.py")
 
 
+def open_app_at_dehradun():
+    app = AppTest.from_file(APP_PATH, default_timeout=60).run()
+    app.selectbox[0].set_value("Uttarakhand").run()
+    app.selectbox[1].set_value("Dehradun")
+    return app
+
+
 def submit_form(monkeypatch, fake_run_analysis):
     monkeypatch.setattr(pipeline, "run_analysis", fake_run_analysis)
+    return open_app_at_dehradun().button[0].click().run()
+
+
+def test_city_list_follows_the_chosen_state():
     app = AppTest.from_file(APP_PATH, default_timeout=60).run()
-    app.text_input[0].set_value("Dehradun")
-    return app.button[0].click().run()
+    assert app.selectbox[1].options[0] == "Mumbai"
+
+    app.selectbox[0].set_value("Telangana").run()
+
+    assert app.selectbox[1].options[0] == "Hyderabad"
+    assert "Mumbai" not in app.selectbox[1].options
+
+
+def test_chosen_city_reaches_the_agents_with_its_state(monkeypatch):
+    received = []
+
+    def fake_run(location, *args):
+        received.append(location)
+        return AnalysisResult(markdown="report")
+
+    app = submit_form(monkeypatch, fake_run)
+
+    assert not app.exception
+    assert received == ["Dehradun, Uttarakhand"]
 
 
 def test_structured_result_shows_metric_cards(monkeypatch):
@@ -63,9 +91,8 @@ def test_wrong_demo_password_blocks_the_run(monkeypatch):
         raise AssertionError("The crew must not start")
 
     monkeypatch.setattr(pipeline, "run_analysis", must_not_run)
-    app = AppTest.from_file(APP_PATH, default_timeout=60).run()
-    app.text_input[0].set_value("Dehradun")
-    app.text_input[1].set_value("wrong")
+    app = open_app_at_dehradun()
+    app.text_input[0].set_value("wrong")
     app = app.button[0].click().run()
 
     assert not app.exception
@@ -75,9 +102,8 @@ def test_wrong_demo_password_blocks_the_run(monkeypatch):
 def test_correct_demo_password_allows_the_run(monkeypatch):
     monkeypatch.setenv("DEMO_PASSWORD", "open-sesame")
     monkeypatch.setattr(pipeline, "run_analysis", lambda *args: AnalysisResult(markdown="report"))
-    app = AppTest.from_file(APP_PATH, default_timeout=60).run()
-    app.text_input[0].set_value("Dehradun")
-    app.text_input[1].set_value("open-sesame")
+    app = open_app_at_dehradun()
+    app.text_input[0].set_value("open-sesame")
     app = app.button[0].click().run()
 
     assert not app.exception

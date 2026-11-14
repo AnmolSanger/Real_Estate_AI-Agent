@@ -1,0 +1,468 @@
+state,city,census_name,population_2011
+Andaman and Nicobar Islands,Port Blair,Port Blair (MC),100608
+Andhra Pradesh,Visakhapatnam,GVMC (MC),1730320
+Andhra Pradesh,Vijayawada,Vijayawada UA,1491202
+Andhra Pradesh,Guntur,Guntur UA,673952
+Andhra Pradesh,Nellore,Nellore UA,564148
+Andhra Pradesh,Rajahmundry,Rajahmundry UA,478199
+Andhra Pradesh,Kurnool,Kurnool UA,478124
+Andhra Pradesh,Tirupati,Tirupati UA,459985
+Andhra Pradesh,Kakinada,Kakinada UA,442936
+Andhra Pradesh,Kadapa,Kadapa UA,344078
+Andhra Pradesh,Anantapur,Anantapur UA,341895
+Andhra Pradesh,Eluru,Eluru UA,250693
+Andhra Pradesh,Vizianagaram,Vizianagaram UA,239374
+Andhra Pradesh,Proddatur,Proddatur UA,217895
+Andhra Pradesh,Nandyal,Nandyal UA,211787
+Andhra Pradesh,Ongole,Ongole UA,206419
+Andhra Pradesh,Adoni,Adoni UA,184771
+Andhra Pradesh,Madanapalle,Madanapalle UA,179267
+Andhra Pradesh,Chittoor,Chittoor UA,175640
+Andhra Pradesh,Machilipatnam,Machilipatnam (M),170008
+Andhra Pradesh,Tenali,Tenali (M),164649
+Andhra Pradesh,Chirala,Chirala UA,162725
+Andhra Pradesh,Hindupur,Hindupur (M),151835
+Andhra Pradesh,Bhimavaram,Bhimavaram UA,147056
+Andhra Pradesh,Srikakulam,Srikakulam UA,146988
+Andhra Pradesh,Guntakal,Guntakal (M),126479
+Andhra Pradesh,Dharmavaram,Dharmavaram (M),121992
+Andhra Pradesh,Gudivada,Gudivada (M),118289
+Andhra Pradesh,Narasaraopet,Narasaraopet UA,117568
+Andhra Pradesh,Tadpatri,Tadpatri (M),108249
+Andhra Pradesh,Tadepalligudem,Tadepalligudem UA,103703
+Andhra Pradesh,Chilakaluripet,Chilakaluripet (M),101550
+Assam,Guwahati,Guwahati UA,968549
+Assam,Silchar,Silchar UA,228985
+Assam,Dibrugarh,Dibrugarh UA,154019
+Assam,Jorhat,Jorhat UA,153249
+Assam,Nagaon,Nagaon UA,147137
+Assam,Tinsukia,Tinsukia UA,125637
+Assam,Tezpur,Tezpur UA,100477
+Bihar,Patna,Patna UA,2046652
+Bihar,Gaya,Gaya UA,470839
+Bihar,Bhagalpur,Bhagalpur UA,410210
+Bihar,Muzaffarpur,Muzaffarpur UA,393724
+Bihar,Purnia,Purnia UA,310817
+Bihar,Darbhanga,Darbhanga UA,306089
+Bihar,Biharsharif,Biharsharif (M Corp.),296889
+Bihar,Arrah,Arrah (M Corp.),261099
+Bihar,Begusarai,Begusarai (M Corp.),251136
+Bihar,Katihar,Katihar UA,240565
+Bihar,Munger,Munger (M Corp.),213101
+Bihar,Chapra,Chapra UA,212955
+Bihar,Bettiah,Bettiah UA,156200
+Bihar,Saharsa,Saharsa (NP),155175
+Bihar,Sasaram,Sasaram (NP),147396
+Bihar,Hajipur,Hajipur (NP),147126
+Bihar,Dehri,Dehri (NP),137068
+Bihar,Siwan,Siwan (NP),134458
+Bihar,Motihari,Motihari (NP),125183
+Bihar,Nawada,Nawada UA,118820
+Bihar,Bagaha,Bagaha (NP),113012
+Bihar,Buxar,Buxar UA,110608
+Bihar,Kishanganj,Kishanganj (NP),107076
+Bihar,Sitamarhi,Sitamarhi UA,105924
+Bihar,Jamalpur,Jamalpur (NP),105221
+Bihar,Jehanabad,Jehanabad (NP),102456
+Bihar,Aurangabad,Aurangabad (NP),101520
+Chandigarh,Chandigarh,Chandigarh UA,1025682
+Chhattisgarh,Raipur,Raipur UA,1122555
+Chhattisgarh,Durg-Bhilai,Durg-Bhilainagar UA,1064077
+Chhattisgarh,Bilaspur,Bilaspur UA,452851
+Chhattisgarh,Korba,Korba UA,365073
+Chhattisgarh,Rajnandgaon,Rajnandgaon (M Corp.),163122
+Chhattisgarh,Raigarh,Raigarh UA,149991
+Chhattisgarh,Jagdalpur,Jagdalpur (M Corp.),125345
+Chhattisgarh,Ambikapur,Ambikapur UA,123173
+Chhattisgarh,Dhamtari,Dhamtari UA,101645
+Delhi,Delhi,Delhi UA,16314838
+Goa,Panaji,Panaji UA,114405
+Goa,Margao,Margao UA,106528
+Goa,Mormugao,Mormugao UA,101068
+Gujarat,Ahmedabad,Ahmadabad UA,6352254
+Gujarat,Surat,Surat UA,4585367
+Gujarat,Vadodara,Vadodara UA,1817191
+Gujarat,Rajkot,Rajkot UA,1390933
+Gujarat,Bhavnagar,Bhavnagar UA,606282
+Gujarat,Jamnagar,Jamnagar UA,600411
+Gujarat,Junagadh,Junagadh (M Corp.),320250
+Gujarat,Anand,Anand UA,286921
+Gujarat,Navsari,Navsari UA,282753
+Gujarat,Wadhwan,Wadhwan UA,253620
+Gujarat,Gandhidham,Gandhidham (M),248705
+Gujarat,Morbi,Morvi UA,246008
+Gujarat,Nadiad,Nadiad UA,225132
+Gujarat,Bharuch,Bharuch UA,224210
+Gujarat,Porbandar,Porbandar UA,217307
+Gujarat,Mehsana,Mahesana UA,190189
+Gujarat,Bhuj,Bhuj UA,187279
+Gujarat,Veraval,Veraval UA,184855
+Gujarat,Valsad,Valsad UA,170235
+Gujarat,Vapi,Vapi (M),163605
+Gujarat,Godhra,Godhra UA,161925
+Gujarat,Ankleshwar,Anklesvar UA,140839
+Gujarat,Palanpur,Palanpur UA,140344
+Gujarat,Patan,Patan UA,133744
+Gujarat,Botad,Botad (M),130302
+Gujarat,Dahod,Dohad UA,130255
+Gujarat,Jetpur Navagadh,Jetpur Navagadh (M),118550
+Gujarat,Amreli,Amreli UA,118059
+Gujarat,Gondal,Gondal (M),112064
+Gujarat,Deesa,Deesa (M),111149
+Haryana,Faridabad,Faridabad (M Corp.),1404653
+Haryana,Gurugram,Gurgaon UA,901968
+Haryana,Panipat,Panipat UA,442277
+Haryana,Yamunanagar,Yamunanagar UA,383318
+Haryana,Rohtak,Rohtak (M Cl),373133
+Haryana,Hisar,Hisar UA,306893
+Haryana,Karnal,Karnal UA,303425
+Haryana,Sonipat,Sonipat UA,292339
+Haryana,Panchkula,Panchkula (M Cl),210175
+Haryana,Ambala,Ambala UA,207934
+Haryana,Bhiwani,Bhiwani (M Cl),197662
+Haryana,Sirsa,Sirsa (M Cl),183282
+Haryana,Bahadurgarh,Bahadurgarh (M Cl),170426
+Haryana,Jind,Jind (M Cl),166225
+Haryana,Thanesar,Thanesar (M Cl),154962
+Haryana,Kaithal,Kaithal (M Cl),144633
+Haryana,Rewari,Rewari (M Cl),140864
+Haryana,Palwal,Palwal UA,131121
+Himachal Pradesh,Shimla,Shimla UA,171817
+Jammu and Kashmir,Srinagar,Srinagar UA,1273312
+Jammu and Kashmir,Jammu,Jammu UA,651826
+Jammu and Kashmir,Anantnag,Anantnag UA,158785
+Jharkhand,Jamshedpur,Jamshedpur UA,1337131
+Jharkhand,Dhanbad,Dhanbad UA,1195298
+Jharkhand,Ranchi,Ranchi UA,1126741
+Jharkhand,Bokaro Steel City,Bokaro Steel City UA,563417
+Jharkhand,Deoghar,Deoghar (M Corp.),203116
+Jharkhand,Phusro,Phusro UA,186139
+Jharkhand,Hazaribag,Hazaribag UA,153599
+Jharkhand,Giridih,Giridih UA,143529
+Jharkhand,Ramgarh,Ramgarh UA,132441
+Jharkhand,Medini Nagar,Medini Nagar UA,119972
+Jharkhand,Chirkunda,Chirkunda UA,118822
+Karnataka,Bengaluru,BANGALORE UA,8499399
+Karnataka,Mysuru,Mysore UA,983893
+Karnataka,Hubballi-Dharwad,Hubli-Dharwad *(M Corp.),943857
+Karnataka,Mangaluru,Mangalore UA,619664
+Karnataka,Belagavi,Belgaum UA,610189
+Karnataka,Kalaburagi,Gulbarga UA,541617
+Karnataka,Davanagere,Davanagere (M Corp.),435128
+Karnataka,Ballari,Bellary (M Corp.),409644
+Karnataka,Vijayapura,Bijapur (CMC),326360
+Karnataka,Shivamogga,Shimoga (CMC),322428
+Karnataka,Tumakuru,Tumkur (CMC),305821
+Karnataka,Raichur,Raichur (CMC),232456
+Karnataka,Bidar,Bidar UA,213593
+Karnataka,Hosapete,Hospet (CMC),206159
+Karnataka,Hassan,Hassan UA,173134
+Karnataka,Gadag-Betigeri,Gadag-Betigeri (CMC),172813
+Karnataka,Robertson Pet,Robertson Pet UA,165463
+Karnataka,Udupi,Udupi UA,165401
+Karnataka,Bhadravati,Bhadravati (CMC),150776
+Karnataka,Chitradurga,Chitradurga UA,145580
+Karnataka,Kolar,Kolar (CMC),138553
+Karnataka,Mandya,Mandya (CMC),137735
+Karnataka,Chikkamagaluru,Chikmagalur (CMC),118496
+Karnataka,Gangawati,Gangawati UA,114459
+Karnataka,Bagalkot,Bagalkot (CMC),112068
+Karnataka,Ranibennur,Ranibennur (CMC),106365
+Kerala,Kochi,Kochi UA,2117990
+Kerala,Kozhikode,Kozhikode UA,2030519
+Kerala,Thrissur,Thrissur UA,1854783
+Kerala,Malappuram,Malappuram UA,1698645
+Kerala,Thiruvananthapuram,Thiruvananthapuram UA,1687406
+Kerala,Kannur,Kannur UA,1642892
+Kerala,Kollam,Kollam UA,1110005
+Kerala,Cherthala,Cherthala UA,455408
+Kerala,Kayamkulam,Kayamkulam UA,427091
+Kerala,Kottayam,Kottayam UA,357533
+Kerala,Palakkad,Palakkad UA,293566
+Kerala,Alappuzha,Alappuzha UA,241072
+Kerala,Ottappalam,Ottappalam UA,238238
+Kerala,Kanhangad,Kanhangad UA,229706
+Kerala,Kasaragod,Kasaragod UA,192761
+Kerala,Changanassery,Changanassery UA,127971
+Kerala,Chalakudy,Chalakudy UA,114901
+Kerala,Kothamangalam,Kothamangalam UA,114574
+Madhya Pradesh,Indore,Indore UA,2167447
+Madhya Pradesh,Bhopal,Bhopal UA,1883381
+Madhya Pradesh,Jabalpur,Jabalpur UA,1267564
+Madhya Pradesh,Gwalior,Gwalior UA,1101981
+Madhya Pradesh,Ujjain,Ujjain (M Corp.),515215
+Madhya Pradesh,Sagar,Sagar UA,370296
+Madhya Pradesh,Dewas,Dewas (M Corp.),289438
+Madhya Pradesh,Satna,Satna UA,283004
+Madhya Pradesh,Ratlam,Ratlam UA,273892
+Madhya Pradesh,Rewa,Rewa (M Corp.),235422
+Madhya Pradesh,Katni,Murwara (Katni) (M Corp.),221875
+Madhya Pradesh,Singrauli,Singrauli (M Corp.),220295
+Madhya Pradesh,Burhanpur,Burhanpur (M Corp.),210891
+Madhya Pradesh,Khandwa,Khandwa (M Corp.),200681
+Madhya Pradesh,Morena,Morena (M),200506
+Madhya Pradesh,Bhind,Bhind (M),197332
+Madhya Pradesh,Chhindwara,Chhindwara UA,190008
+Madhya Pradesh,Guna,Guna (M),180978
+Madhya Pradesh,Shivpuri,Shivpuri (M),179972
+Madhya Pradesh,Vidisha,Vidisha (M),155959
+Madhya Pradesh,Chhattarpur,Chhattarpur UA,147688
+Madhya Pradesh,Damoh,Damoh UA,147515
+Madhya Pradesh,Mandsaur,Mandsaur (M),141468
+Madhya Pradesh,Khargone,Khargone UA,133361
+Madhya Pradesh,Neemuch,Neemuch UA,128575
+Madhya Pradesh,Pithampur,Pithampur (M),126099
+Madhya Pradesh,Narmadapuram,Hoshangabad (M),117956
+Madhya Pradesh,Itarsi,Itarsi UA,114430
+Madhya Pradesh,Sehore,Sehore UA,109025
+Madhya Pradesh,Betul,Betul (M),103341
+Madhya Pradesh,Seoni,Seoni (M),102377
+Madhya Pradesh,Datia,Datia (M),100466
+Madhya Pradesh,Nagda,Nagda (M),100036
+Maharashtra,Mumbai,Greater Mumbai UA,18414288
+Maharashtra,Pune,Pune UA,5049968
+Maharashtra,Nagpur,Nagpur UA,2497777
+Maharashtra,Nashik,Nashik UA,1562769
+Maharashtra,Vasai-Virar,Vasai Virar City (M Corp.),1221233
+Maharashtra,Chhatrapati Sambhajinagar,Aurangabad UA,1189376
+Maharashtra,Solapur,Solapur (M Corp.),951118
+Maharashtra,Bhiwandi,Bhiwandi UA,737411
+Maharashtra,Amravati,Amravati (M Corp.),646801
+Maharashtra,Malegaon,Malegaon UA,576425
+Maharashtra,Kolhapur,Kolhapur UA,561841
+Maharashtra,Nanded,Nanded Waghala (M Corp.),550564
+Maharashtra,Sangli,Sangali UA,513862
+Maharashtra,Jalgaon,Jalgaon (M Corp.),460468
+Maharashtra,Akola,Akola (M Corp.),427146
+Maharashtra,Latur,Latur (M Cl),382754
+Maharashtra,Ahilyanagar,Ahmadnagar UA,379867
+Maharashtra,Dhule,Dhule (M Corp.),376093
+Maharashtra,Ichalkaranji,Ichalkaranji UA,325709
+Maharashtra,Chandrapur,Chandrapur (M Cl),321036
+Maharashtra,Parbhani,Parbhani (M Cl),307191
+Maharashtra,Jalna,Jalna (M Cl),285349
+Maharashtra,Bhusawal,Bhusawal UA,204016
+Maharashtra,Navi Mumbai,Navi Mumbai Panvel Raigad (CT),194999
+Maharashtra,Panvel,Panvel (M Cl),180464
+Maharashtra,Satara,Satara UA,149170
+Maharashtra,Beed,Bid (M Cl),146237
+Maharashtra,Yavatmal,Yavatmal UA,138464
+Maharashtra,Kamptee,Kamptee UA,136124
+Maharashtra,Gondiya,Gondiya (M Cl),132889
+Maharashtra,Barshi,Barshi (M Cl),118573
+Maharashtra,Achalpur,Achalpur (M Cl),112293
+Maharashtra,Dharashiv,Osmanabad (M Cl),112085
+Maharashtra,Nandurbar,Nandurbar (M Cl),111067
+Maharashtra,Wardha,Wardha (M Cl),105543
+Maharashtra,Udgir,Udgir (M Cl),104063
+Maharashtra,Hinganghat,Hinganghat (M Cl),100416
+Manipur,Imphal,Imphal UA,414288
+Meghalaya,Shillong,Shillong UA,354325
+Mizoram,Aizawl,Aizawl (NT),291822
+Nagaland,Dimapur,Dimapur (MC),123777
+Odisha,Bhubaneswar,Bhubaneswar UA,881988
+Odisha,Cuttack,Cuttack UA,658986
+Odisha,Rourkela,Raurkela UA,552970
+Odisha,Berhampur,Brahmapur Town (M Corp.),355823
+Odisha,Sambalpur,Sambalpur UA,269575
+Odisha,Puri,Puri Town (M),201026
+Odisha,Balasore,Baleshwar UA,177557
+Odisha,Bhadrak,Bhadrak UA,129152
+Odisha,Baripada,Baripada UA,116874
+Puducherry,Puducherry,Puducherry UA,654392
+Punjab,Ludhiana,Ludhiana (M Corp.),1613878
+Punjab,Amritsar,Amritsar UA,1183705
+Punjab,Jalandhar,Jalandhar UA,873725
+Punjab,Patiala,Patiala UA,445196
+Punjab,Bathinda,Bathinda (M Corp.),285813
+Punjab,Mohali,S.A.S. Nagar UA,176152
+Punjab,Hoshiarpur,Hoshiarpur (M Cl),168443
+Punjab,Pathankot,Pathankot UA,159909
+Punjab,Moga,Moga UA,159897
+Punjab,Batala,Batala UA,158404
+Punjab,Abohar,Abohar (M Cl),145238
+Punjab,Malerkotla,Malerkotla (M Cl),135330
+Punjab,Khanna,Khanna (M Cl),128130
+Punjab,Phagwara,Phagwara UA,117954
+Punjab,Muktsar,Muktsar (M Cl),117085
+Punjab,Barnala,Barnala (M Cl),116454
+Punjab,Firozpur,Firozpur (M Cl),110091
+Punjab,Kapurthala,Kapurthala (M Cl),101654
+Rajasthan,Jaipur,Jaipur (M Corp.),3073350
+Rajasthan,Jodhpur,Jodhpur UA,1137815
+Rajasthan,Kota,Kota (M Corp.),1001365
+Rajasthan,Bikaner,Bikaner (M Corp.),647804
+Rajasthan,Ajmer,Ajmer UA,551360
+Rajasthan,Udaipur,Udaipur UA,475150
+Rajasthan,Bhilwara,Bhilwara (M Cl),360009
+Rajasthan,Alwar,Alwar UA,341383
+Rajasthan,Bharatpur,Bharatpur UA,252606
+Rajasthan,Sri Ganganagar,Ganganagar UA,250041
+Rajasthan,Sikar,Sikar UA,244563
+Rajasthan,Pali,Pali (M Cl),229956
+Rajasthan,Tonk,Tonk (M Cl),165363
+Rajasthan,Kishangarh,Kishangarh (M Cl),155019
+Rajasthan,Beawar,Beawar UA,151472
+Rajasthan,Hanumangarh,Total Hanumangarh (M Cl),151104
+Rajasthan,Dholpur,Dhaulpur UA,133229
+Rajasthan,Gangapur City,Gangapur City UA,130030
+Rajasthan,Sawai Madhopur,Sawai Madhopur (M),120998
+Rajasthan,Churu,Churu UA,120147
+Rajasthan,Jhunjhunu,Jhunjhunun (M Cl),118966
+Rajasthan,Baran,Baran (M),118157
+Rajasthan,Chittorgarh,Chittaurgarh (M),116409
+Rajasthan,Makrana,Makrana UA,116245
+Rajasthan,Nagaur,Nagaur UA,108540
+Rajasthan,Hindaun,Hindaun (M),105690
+Rajasthan,Bhiwadi,Bhiwadi (M),104883
+Rajasthan,Bundi,Bundi UA,104457
+Rajasthan,Sujangarh,Sujangarh (M),101528
+Rajasthan,Banswara,Banswara UA,101177
+Tamil Nadu,Chennai,Chennai UA,8696010
+Tamil Nadu,Coimbatore,Coimbatore UA,2151466
+Tamil Nadu,Madurai,Madurai UA,1462420
+Tamil Nadu,Tiruchirappalli,Tiruchirappalli UA,1021717
+Tamil Nadu,Tiruppur,Tiruppur UA,962982
+Tamil Nadu,Salem,Salem UA,919150
+Tamil Nadu,Erode,Erode UA,521776
+Tamil Nadu,Tirunelveli,Tirunelveli UA,498984
+Tamil Nadu,Vellore,Vellore UA,481966
+Tamil Nadu,Thoothukkudi,Thoothukkudi UA,410760
+Tamil Nadu,Dindigul,Dindigul UA,292132
+Tamil Nadu,Thanjavur,Thanjavur UA,290724
+Tamil Nadu,Ranipet,Ranipet UA,262346
+Tamil Nadu,Sivakasi,Sivakasi UA,234688
+Tamil Nadu,Karur,Karur UA,233763
+Tamil Nadu,Udhagamandalam,Udhagamandalam UA,233374
+Tamil Nadu,Hosur,Hosur UA,229507
+Tamil Nadu,Nagercoil,Nagercoil (M),224329
+Tamil Nadu,Kancheepuram,Kancheepuram UA,221749
+Tamil Nadu,Kumarapalayam,Kumarapalayam UA,194992
+Tamil Nadu,Karaikkudi,Karaikkudi UA,181347
+Tamil Nadu,Neyveli,Neyveli UA,178925
+Tamil Nadu,Cuddalore,Cuddalore (M),173361
+Tamil Nadu,Kumbakonam,Kumbakonam UA,167098
+Tamil Nadu,Tiruvannamalai,Tiruvannamalai (M),144683
+Tamil Nadu,Pollachi,Pollachi UA,135235
+Tamil Nadu,Rajapalayam,Rajapalayam (M),130119
+Tamil Nadu,Gudiyatham,Gudiyatham UA,124274
+Tamil Nadu,Pudukkottai,Pudukkottai (M),117215
+Tamil Nadu,Vaniyambadi,Vaniyambadi UA,116712
+Tamil Nadu,Ambur,Ambur (M),113856
+Tamil Nadu,Nagapattinam,Nagapattinam (M),102838
+Telangana,Hyderabad,Hyderabad UA,7749334
+Telangana,Warangal,Warangal UA,759594
+Telangana,Nizamabad,Nizamabad (M Corp.),310467
+Telangana,Karimnagar,Karimnagar UA,299660
+Telangana,Khammam,Khammam UA,262309
+Telangana,Ramagundam,Ramagundam UA,252261
+Telangana,Mahbubnagar,Mahbubnagar UA,210143
+Telangana,Mancherial,Mancherial UA,163875
+Telangana,Nalgonda,Nalgonda UA,153736
+Telangana,Adilabad,Adilabad UA,139103
+Telangana,Kothagudem,Kothagudem UA,119450
+Telangana,Siddipet,Siddipet UA,113893
+Telangana,Suryapet,Suryapet UA,106524
+Telangana,Miryalaguda,Miryalaguda UA,104956
+Telangana,Jagtial,Jagtial UA,103962
+Tripura,Agartala,Agartala (M Cl),399688
+Uttar Pradesh,Kanpur,Kanpur UA,2920067
+Uttar Pradesh,Lucknow,Lucknow UA,2901474
+Uttar Pradesh,Ghaziabad,Ghaziabad UA,2358525
+Uttar Pradesh,Agra,Agra UA,1746467
+Uttar Pradesh,Varanasi,Varanasi UA,1435113
+Uttar Pradesh,Meerut,Meerut UA,1424908
+Uttar Pradesh,Prayagraj,Allahabad UA,1216719
+Uttar Pradesh,Bareilly,Bareilly UA,979933
+Uttar Pradesh,Aligarh,Aligarh UA,909559
+Uttar Pradesh,Moradabad,Moradabad (M Corp.),889810
+Uttar Pradesh,Saharanpur,Saharanpur (M Corp.),703345
+Uttar Pradesh,Gorakhpur,Gorakhpur UA,692519
+Uttar Pradesh,Noida,Noida (CT),642381
+Uttar Pradesh,Firozabad,Firozabad (NPP),603797
+Uttar Pradesh,Jhansi,Jhansi UA,549391
+Uttar Pradesh,Muzaffarnagar,Muzaffarnagar UA,494792
+Uttar Pradesh,Mathura,Mathura UA,454937
+Uttar Pradesh,Rampur,Rampur UA,349062
+Uttar Pradesh,Shahjahanpur,Shahjahanpur UA,346103
+Uttar Pradesh,Farrukhabad-cum-Fatehgarh,Farrukhabad-cum-Fatehgarh UA,290540
+Uttar Pradesh,Maunath Bhanjan,Maunath Bhanjan (NPP),279060
+Uttar Pradesh,Hapur,Hapur (NPP),262801
+Uttar Pradesh,Ayodhya,Faizabad UA,259160
+Uttar Pradesh,Etawah,Etawah (NPP),256790
+Uttar Pradesh,Mirzapur-cum-Vindhyachal,Mirzapur-cum-Vindhyachal UA,245817
+Uttar Pradesh,Bulandshahr,Bulandshahr UA,235310
+Uttar Pradesh,Sambhal,Sambhal (NPP),221334
+Uttar Pradesh,Amroha,Amroha (NPP),197135
+Uttar Pradesh,Hardoi,Hardoi UA,197046
+Uttar Pradesh,Fatehpur,Fatehpur (NPP),193801
+Uttar Pradesh,Rae Bareli,Rae Bareli (NPP),191056
+Uttar Pradesh,Orai,Orai UA,190625
+Uttar Pradesh,Sitapur,Sitapur UA,188230
+Uttar Pradesh,Bahraich,Bahraich (NPP),186241
+Uttar Pradesh,Modinagar,Modinagar UA,182811
+Uttar Pradesh,Unnao,Unnao (NPP),178681
+Uttar Pradesh,Jaunpur,Jaunpur (NPP),168128
+Uttar Pradesh,Lakhimpur,Lakhimpur UA,164925
+Uttar Pradesh,Hathras,Hathras UA,161289
+Uttar Pradesh,Banda,Banda UA,160432
+Uttar Pradesh,Pilibhit,Pilibhit UA,160146
+Uttar Pradesh,Budaun,Budaun (NPP),159221
+Uttar Pradesh,Deen Dayal Upadhyaya Nagar,Mughalsarai UA,154692
+Uttar Pradesh,Barabanki,Barabanki UA,146831
+Uttar Pradesh,Khurja,Khurja UA,142636
+Uttar Pradesh,Gonda,Gonda UA,138929
+Uttar Pradesh,Mainpuri,Mainpuri UA,133078
+Uttar Pradesh,Lalitpur,Lalitpur (NPP),133041
+Uttar Pradesh,Etah,Etah UA,131023
+Uttar Pradesh,Deoria,Deoria (NPP),129570
+Uttar Pradesh,Ghazipur,Ghazipur UA,121136
+Uttar Pradesh,Sultanpur,Sultanpur UA,116211
+Uttar Pradesh,Azamgarh,Azamgarh UA,116165
+Uttar Pradesh,Bijnor,Bijnor UA,115381
+Uttar Pradesh,Basti,Basti (NPP),114651
+Uttar Pradesh,Chandausi,Chandausi (NPP),114254
+Uttar Pradesh,Akbarpur,Akbarpur (NPP),111594
+Uttar Pradesh,Ballia,Ballia UA,111287
+Uttar Pradesh,Mubarakpur,Mubarakpur UA,109539
+Uttar Pradesh,Greater Noida,Greater Noida (CT),107676
+Uttar Pradesh,Shikohabad,Shikohabad (NPP),107300
+Uttar Pradesh,Shamli,Shamli (NPP),107233
+Uttar Pradesh,Baraut,Baraut (NPP),102733
+Uttar Pradesh,Kasganj,Kasganj (NPP),101241
+Uttarakhand,Dehradun,Dehradun UA,714223
+Uttarakhand,Haridwar,Hardwar UA,310562
+Uttarakhand,Roorkee,Roorkee UA,273502
+Uttarakhand,Haldwani,Haldwani-cum-Kathgodam UA,232060
+Uttarakhand,Rudrapur,Rudrapur UA,154485
+Uttarakhand,Kashipur,Kashipur (NPP),121610
+Uttarakhand,Rishikesh,Rishikesh UA,102158
+West Bengal,Kolkata,Kolkata UA,14112536
+West Bengal,Asansol,Asansol UA,1243008
+West Bengal,Siliguri,Siliguri UA,701489
+West Bengal,Durgapur,Durgapur UA,581409
+West Bengal,Bardhaman,Barddhaman UA,347016
+West Bengal,English Bazar,English Bazar UA,324237
+West Bengal,Baharampur,Baharampur UA,305609
+West Bengal,Habra,Habra UA,304584
+West Bengal,Kharagpur,Kharagpur UA,293719
+West Bengal,Santipur,Santipur UA,288718
+West Bengal,Dankuni,Dankuni UA,249840
+West Bengal,Dhulian,Dhulian UA,239022
+West Bengal,Ranaghat,Ranaghat UA,235583
+West Bengal,Haldia,Haldia (M),200762
+West Bengal,Raiganj,Raiganj UA,199758
+West Bengal,Krishnanagar,Krishnanagar UA,181182
+West Bengal,Nabadwip,Nabadwip UA,175474
+West Bengal,Medinipur,Medinipur (M),169127
+West Bengal,Jalpaiguri,Jalpaiguri UA,169013
+West Bengal,Balurghat,Balurghat UA,164593
+West Bengal,Basirhat,Basirhat UA,144891
+West Bengal,Bankura,Bankura (M),138036
+West Bengal,Chakdaha,Chakdaha UA,132855
+West Bengal,Darjeeling,Darjiling UA,132016
+West Bengal,Alipurduar,Alipurduar UA,127342
+West Bengal,Purulia,Puruliya UA,126894
+West Bengal,Jangipur,Jangipur UA,122875
+West Bengal,Bongaon,Bongaon (M),110668
+West Bengal,Cooch Behar,Koch Bihar UA,106760

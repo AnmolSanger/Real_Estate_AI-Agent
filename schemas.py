@@ -1,7 +1,8 @@
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
+from cities import INDIAN_CITIES, is_supported, to_location
 from telemetry import RunTelemetry
 
 
@@ -74,12 +75,21 @@ class AnalysisResult(BaseModel):
 
 
 class AnalyzeRequest(BaseModel):
-    # Location goes straight into the prompts, so limit it to what a place name needs.
-    location: str = Field(
-        min_length=2, max_length=100, pattern=r"^[^\W\d_][^\W_]*([ ,.'-]+[^\W_]+)*\.?$"
-    )
+    # Only listed Indian cities are accepted, so no free text reaches the prompts.
+    state: Literal[tuple(INDIAN_CITIES)]
+    city: str
     property_type: Literal["Residential", "Commercial", "Retail", "Industrial", "Mixed-Use"]
     assumptions: FinancialAssumptions = Field(default_factory=FinancialAssumptions)
+
+    @model_validator(mode="after")
+    def check_city_is_listed(self):
+        if not is_supported(self.state, self.city):
+            raise ValueError(f"{self.city} is not a supported city in {self.state}")
+        return self
+
+    @property
+    def location(self):
+        return to_location(self.state, self.city)
 
 
 class Job(BaseModel):
