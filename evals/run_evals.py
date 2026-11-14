@@ -14,14 +14,13 @@ from evals.scorers import MAX_RENT_SPREAD_PCT, SCORERS, rent_spread_pct, score_r
 from pipeline import run_analysis
 from tasks import PROMPT_VERSION
 
-# One market per property type. Pune repeats to measure how stable the inputs are.
+# One market per property type, written as the app sends them. Pune repeats to measure stability.
 CASES = [
-    ("Pune", "Residential"),
-    ("Bengaluru", "Commercial"),
-    ("Mumbai", "Retail"),
-    ("Chennai", "Industrial"),
-    ("Hyderabad", "Mixed-Use"),
-    ("Pune", "Residential"),
+    ("Pune, Maharashtra", "Residential"),
+    ("Bengaluru, Karnataka", "Commercial"),
+    ("Mumbai, Maharashtra", "Retail"),
+    ("Chennai, Tamil Nadu", "Industrial"),
+    ("Pune, Maharashtra", "Residential"),
 ]
 
 PAUSE_BETWEEN_RUNS_SECONDS = 30

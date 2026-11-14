@@ -33,7 +33,7 @@ def create_property_researcher(llm):
             - Finding real asking prices and rents with their sources
             - Identifying emerging corridors and high-growth areas""",
         backstory="""You are a seasoned property market researcher with 15 years of experience across residential,
-            commercial, retail, industrial, and mixed-use real estate.
+            commercial, retail, and industrial real estate.
             You've successfully identified over $500M worth of property investments across diverse market conditions.
             You combine traditional real estate metrics with modern analytics, including demand patterns,
             e-commerce impact assessment, and demographic shift analysis.

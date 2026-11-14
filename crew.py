@@ -1,7 +1,6 @@
 from cities import INDIAN_CITIES, is_supported, to_location
 from pipeline import run_analysis
-
-PROPERTY_TYPES = ["Residential", "Commercial", "Retail", "Industrial", "Mixed-Use"]
+from schemas import PROPERTY_TYPES
 
 
 def run():

@@ -70,7 +70,9 @@ EstateMind accepts only **Indian cities with 1 lakh or more people**: 467 cities
 
 ## Evaluation
 
-`evals/run_evals.py` runs 6 live reports across all five property types. Evals call real APIs, so they run by hand, not in CI. Full results are in [evals/results](evals/results).
+`evals/run_evals.py` runs 5 live reports across the four property types, with Pune run twice to check stability. Evals call real APIs, so they run by hand, not in CI. Full results are in [evals/results](evals/results).
+
+The table below comes from the earlier suite, which ran 6 reports including a mixed-use case.
 
 | Check | Prompt v3 | Prompt v4 | Prompt v5 |
 |---|---|---|---|
@@ -87,9 +89,17 @@ EstateMind accepts only **Indian cities with 1 lakh or more people**: 467 cities
 - **v4** removed social media links as price sources, and exposed the strict-schema crash.
 - **v5** fixed that crash by moving value checks from parsing into Python.
 
+**Property type check, added later.** A new scorer checks that each source URL names the requested type, like `2-bhk-flats` for Residential or `warehouse` for Industrial. Applied to the saved results with no new API calls:
+
+- **Mixed-use failed in every version.** All its sources were commercial listings, because Indian property portals rarely list mixed-use. It was removed, leaving four types.
+- **v5 passed 3 of its 5 other runs.** An Industrial pick came from a commercial listing, and a Retail source URL had no category words.
+
+The check reads URL words only, so it can fail a correct listing whose URL gives no category. It will be scored on new runs from now on.
+
 ## Known limitations
 
 - **Inputs are not stable.** The same property's rent can differ a lot between runs, because each run samples different listings. The next fix is to average several listings per area.
+- **A property's type is not verified.** The type guides the agents' search, and the eval checks source URLs, but nothing confirms that a listing is really that type.
 - **Correct math does not make inputs true.** A plausible but wrong price still passes. Figures come from web listings and are not verified against market data.
 - **The eval sample is small.** Six runs per version catch failures, but do not prove statistical confidence.
 - **Jobs live in memory.** A restart loses them, and only one server process is supported. Production would use a queue and a database.

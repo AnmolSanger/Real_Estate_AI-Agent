@@ -27,6 +27,15 @@ METRIC_IN_TEXT = re.compile(
 
 MAX_RENT_SPREAD_PCT = 25
 
+# Words that show a listing's category in its URL, like ".../2-bhk-flats-in-baner".
+# Indian portals list shops under "commercial", so "commercial" also counts for Commercial only.
+TYPE_KEYWORDS = {
+    "Residential": ("flat", "apartment", "house", "villa", "bhk", "residential", "home"),
+    "Commercial": ("office", "commercial", "coworking"),
+    "Retail": ("shop", "showroom", "retail", "store", "mall"),
+    "Industrial": ("warehouse", "godown", "factory", "industrial", "shed", "logistics"),
+}
+
 
 def schema_valid(result):
     return result.report is not None
@@ -81,6 +90,26 @@ def reliable_sources(result):
     )
 
 
+def source_matches_type(url, property_type):
+    """Whether a source URL names the requested property type.
+
+    A proxy, not a real classification: a correct listing can still fail if its URL has no
+    category words. Whole URL words are compared, so "warehouse" does not count as "house".
+    """
+    words = re.split(r"[^a-z0-9]+", url.lower())
+    keywords = TYPE_KEYWORDS.get(property_type, ())
+    return any(word.startswith(keyword) for word in words for keyword in keywords)
+
+
+def property_type_matches(result):
+    if not result.report or not result.telemetry:
+        return False
+    return all(
+        source_matches_type(pick.source_url, result.telemetry.property_type)
+        for pick in result.report.picks
+    )
+
+
 SCORERS = {
     "schema_valid": schema_valid,
     "finance_tool_used": finance_tool_used,
@@ -89,6 +118,7 @@ SCORERS = {
     "sections_present": sections_present,
     "plausible_inputs": plausible_inputs,
     "reliable_sources": reliable_sources,
+    "property_type_matches": property_type_matches,
 }
 
 

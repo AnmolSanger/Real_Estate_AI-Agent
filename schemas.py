@@ -5,6 +5,10 @@ from pydantic import BaseModel, Field, model_validator
 from cities import INDIAN_CITIES, is_supported, to_location
 from telemetry import RunTelemetry
 
+# Mixed-use was removed: Indian property portals rarely list it, so the agents
+# substituted ordinary commercial listings.
+PROPERTY_TYPES = ("Residential", "Commercial", "Retail", "Industrial")
+
 
 class FinancialAssumptions(BaseModel):
     """Loan and running-cost inputs chosen by the user, not the LLM."""
@@ -78,7 +82,7 @@ class AnalyzeRequest(BaseModel):
     # Only listed Indian cities are accepted, so no free text reaches the prompts.
     state: Literal[tuple(INDIAN_CITIES)]
     city: str
-    property_type: Literal["Residential", "Commercial", "Retail", "Industrial", "Mixed-Use"]
+    property_type: Literal[PROPERTY_TYPES]
     assumptions: FinancialAssumptions = Field(default_factory=FinancialAssumptions)
 
     @model_validator(mode="after")

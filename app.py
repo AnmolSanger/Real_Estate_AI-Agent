@@ -5,7 +5,7 @@ import streamlit as st
 
 from cities import INDIAN_CITIES, to_location
 from pipeline import run_analysis
-from schemas import FinancialAssumptions
+from schemas import PROPERTY_TYPES, FinancialAssumptions
 
 # Set on public deployments, so strangers cannot spend the Gemini and Serper quotas.
 demo_password = os.getenv("DEMO_PASSWORD")
@@ -48,7 +48,7 @@ st.caption("Indian cities with 1 lakh or more people, from Census of India 2011.
 with st.form("analysis_form"):
     property_type = st.selectbox(
         "Property Type",
-        ["Residential", "Commercial", "Retail", "Industrial", "Mixed-Use"],
+        PROPERTY_TYPES,
     )
 
     with st.expander("⚙️ Financing assumptions"):

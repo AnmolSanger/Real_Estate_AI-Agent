@@ -22,9 +22,11 @@ def make_result(modeler_tool_calls=3, summary=GOOD_SUMMARY, picks=None):
     result = pipeline.build_result(
         SimpleNamespace(pydantic=analyst_report, raw="raw"), FinancialAssumptions()
     )
+    for number, pick in enumerate(result.report.picks):
+        pick.source_url = f"https://www.99acres.com/2-bhk-flats-in-area-{number}-pune-ffid"
     result.telemetry = RunTelemetry(
         location="Pune",
-        property_type="Retail",
+        property_type="Residential",
         model="test",
         prompt_version="1",
         steps=[
@@ -112,6 +114,40 @@ def test_lookalike_domain_is_not_treated_as_social():
     assert scorers.is_reliable_source("https://www.netflix.com/title")
     assert scorers.is_reliable_source("https://www.99acres.com/property")
     assert not scorers.is_reliable_source("not a url")
+
+
+@pytest.mark.parametrize(
+    "url, property_type",
+    [
+        ("https://www.99acres.com/2-bhk-flats-in-baner-pune-ffid", "Residential"),
+        ("https://www.magicbricks.com/office-space-for-sale-in-whitefield", "Commercial"),
+        ("https://www.99acres.com/commercial-shops-in-lower-parel", "Retail"),
+        ("https://www.nobroker.in/warehouse-godown-for-sale-in-sriperumbudur", "Industrial"),
+    ],
+)
+def test_source_matching_the_type_passes(url, property_type):
+    assert scorers.source_matches_type(url, property_type)
+
+
+@pytest.mark.parametrize(
+    "url, property_type",
+    [
+        # Seen in evals: a commercial listing offered as industrial.
+        ("https://www.magicbricks.com/commercial-property-for-sale-in-red-hills", "Industrial"),
+        ("https://www.nobroker.in/warehouse-godown-for-sale", "Residential"),
+        ("https://www.addressofchoice.com/trade-centre-bkc", "Retail"),
+        ("https://www.99acres.com/commercial-property-in-gachibowli", "Mixed-Use"),
+    ],
+)
+def test_source_not_matching_the_type_fails(url, property_type):
+    assert not scorers.source_matches_type(url, property_type)
+
+
+def test_one_wrong_type_fails_the_run():
+    result = make_result()
+    result.report.picks[1].source_url = "https://www.magicbricks.com/office-space-for-sale"
+
+    assert not scorers.property_type_matches(result)
 
 
 def test_rent_spread_compares_the_same_property_across_runs():
